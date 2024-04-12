@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="530.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.darkin.electronicordersystem.RegisterController">
+   <children>
+      <AnchorPane prefHeight="82.0" prefWidth="520.0" style="-fx-background-color: #081334;">
+         <children>
+            <ImageView fx:id="profileImageView" fitHeight="53.0" fitWidth="55.0" layoutX="28.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../assets/icons/line-md--account-white.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="104.0" layoutY="23.0" prefHeight="37.0" prefWidth="212.0" text="User Registration" textFill="WHITE">
+               <font>
+                  <Font name="Noto Sans Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="85.0" layoutY="111.0" prefHeight="16.0" prefWidth="68.0" text="Firstname" />
+      <TextField fx:id="firstnameTextField" layoutX="85.0" layoutY="134.0" prefHeight="24.0" prefWidth="350.0" promptText="Firstname" />
+      <Label layoutX="85.0" layoutY="177.0" prefHeight="16.0" prefWidth="68.0" text="Lastname" />
+      <TextField fx:id="lastnameTextField" layoutX="85.0" layoutY="200.0" prefHeight="24.0" prefWidth="350.0" promptText="Lastname" />
+      <Label layoutX="85.0" layoutY="245.0" prefHeight="16.0" prefWidth="68.0" text="Username" />
+      <TextField fx:id="usernameTextField" layoutX="85.0" layoutY="268.0" prefHeight="24.0" prefWidth="350.0" promptText="Username" />
+      <Label layoutX="85.0" layoutY="310.0" prefHeight="16.0" prefWidth="68.0" text="Password" />
+      <PasswordField fx:id="setPasswordField" layoutX="85.0" layoutY="333.0" prefHeight="24.0" prefWidth="350.0" promptText="Password" />
+      <Label layoutX="85.0" layoutY="377.0" prefHeight="16.0" prefWidth="122.0" text="Confirm Password" />
+      <PasswordField fx:id="confirmPasswordField" layoutX="85.0" layoutY="400.0" prefHeight="24.0" prefWidth="350.0" promptText="Confirm Password" />
+      <Button fx:id="registerButton" layoutX="160.0" layoutY="439.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #081334;" text="Register" textFill="WHITE" />
+      <Button fx:id="closeButton" layoutX="160.0" layoutY="478.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #76122b;" text="Close" textFill="WHITE" />
+   </children>
+</AnchorPane>
