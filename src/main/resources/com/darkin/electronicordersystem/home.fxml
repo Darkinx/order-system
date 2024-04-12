@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: #081334;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="69.0" fitWidth="67.0" layoutX="25.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../assets/icons/codicon--account-white.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="77.0" fitWidth="61.0" layoutX="914.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../assets/icons/iconoir--cart-white.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #808080;" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
