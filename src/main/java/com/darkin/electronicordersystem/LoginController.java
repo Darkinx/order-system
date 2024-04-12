@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     @FXML
-    private Button cancelButton;
+    private Button cancelButton, loginButton;
     @FXML
     private Label loginMessageLabel;
     @FXML
@@ -49,12 +49,14 @@ public class LoginController implements Initializable {
         Image lockImage =  new Image(lockFile.toURI().toString());//do no what is this for.
         lockImageView.setImage(lockImage);
     }
-
+//TODO: Need validators
     public void loginButtonAction(ActionEvent event){
         if(usernameTextField.getText().isBlank() || enterPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Enter your username or password");
         }else {
             validateLogin();
+            createHomeForm();
+            closeForm();
         }
     }
 
@@ -64,7 +66,6 @@ public class LoginController implements Initializable {
     }
 
     public void signupButtonOnAction(ActionEvent event){
-
         //close the login stage first
         Stage stage =  (Stage) signupButton.getScene().getWindow();
         stage.close();
@@ -72,11 +73,16 @@ public class LoginController implements Initializable {
         createAccountForm();
     }
 
+    public void closeForm(){
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.close();
+    }
+    //TODO: Separate all creation of forms and stages in one file
     public void createAccountForm(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
 //            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 520, 530);
+            Scene scene = new Scene(fxmlLoader.load(), 520, 650);
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED); //this remove the window button (maximize, close, and minimize)
             stage.setScene(scene);
@@ -87,6 +93,21 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void createHomeForm(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
+//            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
+            Stage stage = new Stage();
+            stage.setTitle("E-Gizmo HOME");
+            stage.setScene(scene);
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+//TODO: Separate any interface to the Database
     public void validateLogin(){
         //instancing connection to DB
         DatabaseConnection con = new DatabaseConnection();
@@ -100,7 +121,7 @@ public class LoginController implements Initializable {
 
             while(queryResult.next()){
                 if(queryResult.getInt(1) == 1){
-                    System.out.println("The test go here");
+                    System.out.println("Login tested");
                     loginMessageLabel.setText("Permission to enter"); //need a way to have a pseudo layout of the buying form
                 }else{
                     loginMessageLabel.setText("Invalid Login. Please try again.");
