@@ -3,7 +3,6 @@ package com.darkin.electronicordersystem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -51,11 +50,11 @@ public class LoginController implements Initializable {
         lockImageView.setImage(lockImage);
     }
 
-    public void loginButtonAction(ActionEvent even){
+    public void loginButtonAction(ActionEvent event){
         if(usernameTextField.getText().isBlank() || enterPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Enter your username or password");
         }else {
-            loginMessageLabel.setText("You try to login.");
+            validateLogin();
         }
     }
 
