@@ -16,7 +16,7 @@
          <children>
             <ImageView fx:id="brandingImageView" fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../assets/logo/e-gizmo_white_h100-397x100.png" />
+                  <Image url="@../../../../../../assets/logo/main-logo.png" />
                </image>
             </ImageView>
             <Button fx:id="signupButton" alignment="CENTER" layoutX="19.0" layoutY="316.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="24.0" prefWidth="192.0" style="-fx-background-color: #00000000;" text="No account? Sign up now!" textFill="#5bd0dd">
