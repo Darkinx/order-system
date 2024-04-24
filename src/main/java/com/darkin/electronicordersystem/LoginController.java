@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {// setting the branding image to the FXML layout
-        File brandingFile = new File("assets/logo/e-gizmo_white_h100-397x100.png");
+        File brandingFile = new File("assets/logo/main-logo.png");
         Image brandingImage =  new Image(brandingFile.toURI().toString());//do no what is this for.
         brandingImageView.setImage(brandingImage);
 
@@ -54,9 +54,10 @@ public class LoginController implements Initializable {
         if(usernameTextField.getText().isBlank() || enterPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Enter your username or password");
         }else {
-            validateLogin();
-            createHomeForm();
-            closeForm();
+            if(validateLogin()) {
+                createHomeForm();
+                closeForm();
+            }
         }
     }
 
@@ -97,7 +98,7 @@ public class LoginController implements Initializable {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
 //            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
+            Scene scene = new Scene(fxmlLoader.load(), 1315, 850);
             Stage stage = new Stage();
             stage.setTitle("E-Gizmo HOME");
             stage.setScene(scene);
@@ -108,7 +109,7 @@ public class LoginController implements Initializable {
         }
     }
 //TODO: Separate any interface to the Database
-    public void validateLogin(){
+    public boolean validateLogin(){
         //instancing connection to DB
         DatabaseConnection con = new DatabaseConnection();
         Connection connectDB = con.getConnection();
@@ -123,14 +124,17 @@ public class LoginController implements Initializable {
                 if(queryResult.getInt(1) == 1){
                     System.out.println("Login tested");
                     loginMessageLabel.setText("Permission to enter"); //need a way to have a pseudo layout of the buying form
+                    return true;
                 }else{
                     loginMessageLabel.setText("Invalid Login. Please try again.");
+                    return false;
                 }
             }
         }catch (Exception e){
             e.getStackTrace();
             e.getCause();
         }
+        return false;
     }
 
 //    @FXML

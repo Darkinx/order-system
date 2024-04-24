@@ -102,6 +102,7 @@ public class RegisterController implements Initializable {
             registrationMessageLabel.setText("Registered successfully");
 
         }catch (Exception e){
+            registrationMessageLabel.setText("Something's wrong");
             e.getStackTrace();
             e.getCause();
         }
@@ -118,6 +119,7 @@ public class RegisterController implements Initializable {
         String insertField = "INSERT INTO account (username, password, fname, lname, address, email) VALUES ";
         String insertValues = String.format("('%s','%s','%s','%s','%s','%s')",uname,pass,fname,lname,address,email);
         String insertQuery = insertField + insertValues;
+//        System.out.println(insertQuery);
         return insertQuery;
     }
 
