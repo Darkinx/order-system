@@ -12,6 +12,10 @@ public class DatabaseConnection {
      *
      */
 
+    //TODO: Have a secure hashing of password and username
+    //TODO: Way to create a database, tables, and initial setup of the connection by its own.
+    //      - Used when the system is first installed
+
     public Connection getConnection(){//trying to connect to the database
         String databaseName = "test";
         String databaseUser = "root";
