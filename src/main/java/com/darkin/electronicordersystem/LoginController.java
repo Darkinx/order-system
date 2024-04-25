@@ -54,8 +54,10 @@ public class LoginController implements Initializable {
         if(usernameTextField.getText().isBlank() || enterPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Enter your username or password");
         }else {
-            if(validateLogin()) {
-                createHomeForm();
+            String username = usernameTextField.getText();
+            String password = enterPasswordField.getText();
+            if(validateLogin(username, password)) {
+                createHomeForm(username);
                 closeForm();
             }
         }
@@ -94,7 +96,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void createHomeForm(){
+    public void createHomeForm(String username){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
 //            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
@@ -102,6 +104,10 @@ public class LoginController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("E-Gizmo HOME");
             stage.setScene(scene);
+
+            HomeController hmControl = fxmlLoader.getController();
+            hmControl.setUsername(username);
+
             stage.show();
         }catch (IOException e){
             e.printStackTrace();
@@ -109,12 +115,12 @@ public class LoginController implements Initializable {
         }
     }
 //TODO: Separate any interface to the Database
-    public boolean validateLogin(){
+    public boolean validateLogin(String username, String password){
         //instancing connection to DB
         DatabaseConnection con = new DatabaseConnection();
         Connection connectDB = con.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM account WHERE username='" + usernameTextField.getText() + "' AND password='" + enterPasswordField.getText() + "'";
+        String verifyLogin = "SELECT count(1) FROM account WHERE username='" + username + "' AND password='" + password + "'";
 
         try{
             Statement st = connectDB.createStatement();
