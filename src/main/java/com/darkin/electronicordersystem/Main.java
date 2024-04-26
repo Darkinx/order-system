@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class Main extends Application {
+    public static final String CURRENCY = "₱";
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
