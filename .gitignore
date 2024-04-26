@@ -39,3 +39,4 @@ build/
 
 ### Own Config ###
 /assets/products/*.txt
+/assets/products/setupQuery.class
