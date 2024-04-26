@@ -21,27 +21,33 @@
          <center>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #122b76;">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1315.0" spacing="10.0" style="-fx-background-color: #122b76;">
                      <children>
-                        <ImageView fitHeight="50.0" fitWidth="200.0">
+                        <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="200.0">
                            <image>
                               <Image url="@../../../../../../assets/logo/main-logo.png" />
                            </image>
                         </ImageView>
                         <Pane prefHeight="18.0" prefWidth="787.0" HBox.hgrow="ALWAYS" />
-                        <ImageView fitHeight="49.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../assets/icons/iconoir--cart-white.png" />
-                           </image>
+                        <Button fx:id="cartButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="50.0" prefWidth="40.0" style="-fx-background-color: #00000000;">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="40.0" preserveRatio="true">
+                                 <Image url="@../../../../../../assets/icons/iconoir--cart-white.png" />
+                              </ImageView>
+                           </graphic>
                            <HBox.margin>
-                              <Insets right="30.0" />
+                              <Insets right="20.0" />
                            </HBox.margin>
-                        </ImageView>
-                        <ImageView fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../assets/icons/codicon--account-white.png" />
-                           </image>
-                        </ImageView>
+                        </Button>
+                        <Button fx:id="userIconButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: #00000000;">
+                           <graphic>
+                              <ImageView fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../assets/icons/codicon--account-white.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                         <Label alignment="CENTER" prefHeight="20.0" prefWidth="138.0" text="John Razonado" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
@@ -56,32 +62,32 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="775.0" spacing="10.0" style="-fx-background-color: #122b76;">
                            <children>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Tools/ Equipment" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                              <Button fx:id="toolButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Tools/ Equipment" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font name="DejaVu Sans" size="16.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="417.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Microcontrollers" textAlignment="CENTER" textFill="WHITE">
+                              <Button fx:id="microcontrollerButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Microcontrollers" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="DejaVu Sans" size="16.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="504.0" layoutY="45.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0" style="-fx-background-color: #00000000;" text="Passive Components" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                              <Button fx:id="passiveButton" layoutX="504.0" layoutY="45.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0" style="-fx-background-color: #00000000;" text="Passive Components" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font name="DejaVu Sans" size="16.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="591.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Sensors" textAlignment="CENTER" textFill="WHITE">
+                              <Button fx:id="sensorsButton" layoutX="591.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Sensors" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="DejaVu Sans" size="16.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="678.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Display" textAlignment="CENTER" textFill="WHITE">
+                              <Button fx:id="displayButton" layoutX="678.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Display" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="DejaVu Sans" size="16.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="783.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: #00000000;" text="Wiring" textFill="WHITE">
+                              <Button fx:id="wiringButton" layoutX="783.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: #00000000;" text="Wiring" textFill="WHITE">
                                  <font>
                                     <Font name="DejaVu Sans" size="16.0" />
                                  </font>
@@ -89,9 +95,9 @@
                            </children></HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ScrollPane prefHeight="570.0" prefWidth="785.0" HBox.hgrow="ALWAYS">
+                              <ScrollPane fx:id="scrollPane" prefHeight="570.0" prefWidth="785.0" HBox.hgrow="ALWAYS">
                                  <content>
-                                    <GridPane prefHeight="0.0" prefWidth="0.0">
+                                    <GridPane fx:id="gridPane" prefHeight="0.0" prefWidth="0.0">
                                       <rowConstraints>
                                         <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
