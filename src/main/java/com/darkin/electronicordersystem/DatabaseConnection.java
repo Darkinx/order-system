@@ -1,10 +1,17 @@
 package com.darkin.electronicordersystem;
 
+import com.mysql.cj.protocol.Resultset;
+
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class DatabaseConnection {
-    public Connection databaseLink;
+    private static Connection databaseLink;
 
     /**
      * @see this query from stackoverflow about hashing and salting
@@ -16,7 +23,7 @@ public class DatabaseConnection {
     //TODO: Way to create a database, tables, and initial setup of the connection by its own.
     //      - Used when the system is first installed
 
-    public Connection getConnection(){//trying to connect to the database
+    public static Connection getConnection(){//trying to connect to the database
         String databaseName = "test";
         String databaseUser = "root";
         String databasePassword = "";
@@ -32,5 +39,44 @@ public class DatabaseConnection {
         }
 
         return databaseLink;
+    }
+
+    private static void dbDisconnect() throws SQLException {
+        try {
+            if (databaseLink != null && !databaseLink.isClosed()) {
+                databaseLink.close();
+            }
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+
+    public CachedRowSet selectQuery(String stmtQuery) throws SQLException{
+        CachedRowSet crs = null;
+        ResultSet rs = null;
+        try {
+            Statement stmt = DatabaseConnection.getConnection().createStatement();
+            rs = stmt.executeQuery(stmtQuery);
+
+            //CachedRowSet Implementation
+            //In order to prevent "java.sql.SQLRecoverableException: Closed Connection: next" error
+            //We are using CachedRowSet
+            crs = RowSetProvider.newFactory().createCachedRowSet();
+            crs.populate(rs);
+
+
+        }catch (SQLException e){
+            System.err.println("Problem executing: "+ e);
+            throw e;
+        }finally {
+            if (rs != null) {
+                //Close resultSet
+                rs.close();
+            }
+
+            dbDisconnect();
+        }
+        return crs;
     }
 }
