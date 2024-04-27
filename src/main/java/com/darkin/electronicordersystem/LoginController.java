@@ -81,6 +81,7 @@ public class LoginController implements Initializable {
         stage.close();
     }
     //TODO: Separate all creation of forms and stages in one file
+    //TODO: Still don't know how to perform this.
     public void createAccountForm(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
