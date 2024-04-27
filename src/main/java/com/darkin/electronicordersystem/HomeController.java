@@ -1,18 +1,17 @@
 package com.darkin.electronicordersystem;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import model.Product;
 import model.ProductDAO;
 
@@ -26,6 +25,15 @@ public class HomeController implements Initializable {
     private String username;
     private ObservableList<Product> products;
     private ProductDAO productDAO = new ProductDAO();
+    private MyListener myListener;
+    private AnchorPane productViewAnchorPane;
+    private AnchorPane cartMenuAnchorPane;
+    private AnchorPane profileAnchorPane; //Still not decided
+    private ObservableList<AnchorPane> anchorList;
+
+    //Controllers setup
+    ProductViewController productViewController;
+    CartMenuController cartMenuController;
 
     @FXML
     private ImageView logoImageView;
@@ -49,6 +57,10 @@ public class HomeController implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private GridPane gridPane;
+    @FXML
+    private StackPane stackPane;
+    @FXML
+    private VBox productMenuVBox;
 
 
 
@@ -65,6 +77,14 @@ public class HomeController implements Initializable {
             throw new RuntimeException(e);
         }
 
+        if(products.size() > 0){
+            myListener = new MyListener() {
+                @Override
+                public void onClickListener(Product product) {
+                    selectProduct(product);
+                }
+            };
+        }
         //Setup image
         File logoFile = new File("assets/logo/main-logo.png");
         Image logoImage = new Image(logoFile.toURI().toString());
@@ -84,9 +104,54 @@ public class HomeController implements Initializable {
         userIconImageView.setFitWidth(40);
         userIconButton.setGraphic(userIconImageView);
 
+        //Initialize different Panel from FXMLLOADER
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            FXMLLoader fxmlLoader2 = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("cartMenu.fxml"));
+            cartMenuAnchorPane = fxmlLoader.load();
+            cartMenuController = fxmlLoader.getController();
+            fxmlLoader2.setLocation(getClass().getResource("productView.fxml"));
+            productViewAnchorPane = fxmlLoader2.load();
+            productViewController = fxmlLoader2.getController();
+        }catch (IOException e){
+            System.err.println("Error occurred: " + e);
+            e.printStackTrace();
+        }
+
+        //Setting up StackPane
+        stackPane.getChildren().clear();
+//        stackPane = new StackPane();
+        stackPane.getChildren().add(cartMenuAnchorPane);
+        stackPane.getChildren().add(productViewAnchorPane);
+        stackPane.getChildren().add(productMenuVBox);
 
         //Setup the gridPane
+        setupGridPane();
+
+    }
+    public void mainMenuAction(MouseEvent mouseEvent){
+        //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
+        productMenuVBox.toFront();
+        System.out.println("Test menuAction");
+//        setupGridPane(); //resolved first the problem of the lag due to query, use threads
+
+    }
+    public void cartButtonAction(ActionEvent event){
+        cartMenuAnchorPane.toFront();
+        System.out.println("cart button clicked");
+
+    }
+    public void setUsername(String username){
+        this.username = username;
+    }
+    private void selectProduct(Product product){
+        productViewController.setData(product);
+        productViewAnchorPane.toFront();
+    }
+    private void setupGridPane(){
         int col = 0, row =1;
+        gridPane.getChildren().clear();
         try{
             for (int i = 0; i < products.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -94,7 +159,7 @@ public class HomeController implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ProductController productController = fxmlLoader.getController();
-                productController.setData(products.get(i));
+                productController.setData(products.get(i), myListener);
 
                 if (col == 4) {
                     col = 0;
@@ -120,11 +185,5 @@ public class HomeController implements Initializable {
             System.err.println("Error occurred: " + e);
 
         }
-
-
-    }
-
-    public void setUsername(String username){
-        this.username = username;
     }
 }
