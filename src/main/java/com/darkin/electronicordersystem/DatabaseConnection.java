@@ -1,7 +1,5 @@
 package com.darkin.electronicordersystem;
 
-import com.mysql.cj.protocol.Resultset;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.Connection;
@@ -23,7 +21,7 @@ public class DatabaseConnection {
     //TODO: Way to create a database, tables, and initial setup of the connection by its own.
     //      - Used when the system is first installed
 
-    public static Connection getConnection(){//trying to connect to the database
+    public Connection getConnection(){//trying to connect to the database
         String databaseName = "test";
         String databaseUser = "root";
         String databasePassword = "";
@@ -51,12 +49,12 @@ public class DatabaseConnection {
         }
     }
 
-
     public CachedRowSet selectQuery(String stmtQuery) throws SQLException{
         CachedRowSet crs = null;
         ResultSet rs = null;
         try {
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
+            databaseLink = getConnection();
+            Statement stmt = databaseLink.createStatement();
             rs = stmt.executeQuery(stmtQuery);
 
             //CachedRowSet Implementation
@@ -78,5 +76,23 @@ public class DatabaseConnection {
             dbDisconnect();
         }
         return crs;
+    }
+
+    public void executeUpdate(String stmtUpdate) throws SQLException, ClassNotFoundException{
+        Statement stmt = null;
+        try{
+            databaseLink = getConnection();
+            stmt = databaseLink.createStatement();
+            stmt.executeUpdate(stmtUpdate);
+
+        }catch (SQLException e){
+            System.err.println("Problem occurred: " + e);
+            throw e;
+        }finally {
+            if(stmtUpdate != null ){
+                stmt.close();
+            }
+            dbDisconnect();
+        }
     }
 }
