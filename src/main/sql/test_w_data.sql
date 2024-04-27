@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 26, 2024 at 11:03 AM
+-- Generation Time: Apr 27, 2024 at 03:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,13 +57,19 @@ INSERT INTO `account` (`id`, `username`, `password`, `fname`, `lname`, `address`
 
 CREATE TABLE `cart` (
   `id` int(11) NOT NULL,
-  `userId` varchar(255) NOT NULL,
-  `productId` varchar(255) NOT NULL,
-  `productName` varchar(255) NOT NULL,
-  `cost` double(10,2) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `isBought` tinyint(1) NOT NULL
+  `isBought` tinyint(1) NOT NULL,
+  `billNo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `userId`, `productId`, `quantity`, `isBought`, `billNo`) VALUES
+(1, 2, 37, 2, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,16 +92,16 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `description`, `category`, `price`, `stock`, `image_path`) VALUES
-(1, 'Ishikawa Soldering Lead D0.8 60/40 250g', '0.8mm Soldering lead roll Sn60/Pb40', 'Tools', 469, 67, 'assets/products/tools/assets/products/tools/ishikwa-solderlead.png'),
-(2, 'MB-102 Solderless Breadboard 830 points', 'Solderless Breadboard 830 points. Great for prototyping', 'Tools', 87, 78, 'assets/products/tools/assets/products/tools/MB102.png'),
-(3, 'Desoldering pump', 'Full aluminum alloy body desoldering pump. Great for removing solder lead by suction.', 'Tools', 68, 67, 'assets/products/tools/assets/products/tools/desoldering-pump.png'),
-(4, '60W Adjustable Temperature Control Soldering Iron Gray', 'oldering Iron with Built-in Temperature Controller. 60W 220V has a dial range of 200-450C (Temperature is not accurate)', 'Tools', 269, 53, 'assets/products/tools/assets/products/tools/60w-solderIron.png'),
-(5, 'Quecoo T12-958 STM32 Soldering Station', 'Max output - 108w. It can have different soldering iron tip based on the T12 style tip. Grounded, fused, and ESD-Safe.', 'Tools', 2431.55, 15, 'assets/products/tools/assets/products/tools/quecoot12-958.png'),
-(6, 'Plato 170 Wire Cutter', 'Shear Cutter Caution: Copper wire only. This cutter will be damaged if used to cut hard materials like iron/steel. Made from high carbon steel.', 'Tools', 66, 78, 'assets/products/tools/assets/products/tools/plato-170.png'),
-(7, 'GS-01 Ground Strap', 'Ground Strap to prevent you from damaging your most expensive electronic components due to electrostatic discharge ESD.', 'Tools', 50, 65, 'assets/products/tools/assets/products/tools/GS-01.png'),
-(8, 'Soldering Sponge', 'Removes and cleanse soldering iron\'s tip in one swipe.', 'Tools', 12, 80, 'assets/products/tools/assets/products/tools/soldering-sponge.png'),
-(9, 'DT-830B 3-1/2 Digit Multimeter', 'Basic Functions includes ACV, DCV, DCA, Diode & Transistor Tester, Ohmmeter. Requires a 9v Battery. Probe is included', 'Tools', 144, 45, 'assets/products/tools/assets/products/tools/DT-DMM.png'),
-(10, 'Tweezer Set ESD-Safe', 'Contains 6 types of tweezers. The manufacturer claims these are made of stainless steel material. But quick checks shows that, with the exception of ESD-11, all are strongly attracted to magnets.', 'Tools', 65, 66, 'assets/products/tools/assets/products/tools/tweezer-esd.png'),
+(1, 'Ishikawa Soldering Lead D0.8 60/40 250g', '0.8mm Soldering lead roll Sn60/Pb40', 'Tools', 469, 67, 'assets/products/tools/ishikwa-solderlead.png'),
+(2, 'MB-102 Solderless Breadboard 830 points', 'Solderless Breadboard 830 points. Great for prototyping', 'Tools', 87, 78, 'assets/products/tools/MB102.png'),
+(3, 'Desoldering pump', 'Full aluminum alloy body desoldering pump. Great for removing solder lead by suction.', 'Tools', 68, 67, 'assets/products/tools/desoldering-pump.png'),
+(4, '60W Adjustable Temperature Control Soldering Iron Gray', 'oldering Iron with Built-in Temperature Controller. 60W 220V has a dial range of 200-450C (Temperature is not accurate)', 'Tools', 269, 53, 'assets/products/tools/60w-solderIron.png'),
+(5, 'Quecoo T12-958 STM32 Soldering Station', 'Max output - 108w. It can have different soldering iron tip based on the T12 style tip. Grounded, fused, and ESD-Safe.', 'Tools', 2431.55, 15, 'assets/products/tools/quecoot12-958.png'),
+(6, 'Plato 170 Wire Cutter', 'Shear Cutter Caution: Copper wire only. This cutter will be damaged if used to cut hard materials like iron/steel. Made from high carbon steel.', 'Tools', 66, 78, 'assets/products/tools/plato-170.png'),
+(7, 'GS-01 Ground Strap', 'Ground Strap to prevent you from damaging your most expensive electronic components due to electrostatic discharge ESD.', 'Tools', 50, 65, 'assets/products/tools/GS-01.png'),
+(8, 'Soldering Sponge', 'Removes and cleanse soldering iron\'s tip in one swipe.', 'Tools', 12, 80, 'assets/products/tools/soldering-sponge.png'),
+(9, 'DT-830B 3-1/2 Digit Multimeter', 'Basic Functions includes ACV, DCV, DCA, Diode & Transistor Tester, Ohmmeter. Requires a 9v Battery. Probe is included', 'Tools', 144, 45, 'assets/products/tools/DT-DMM.png'),
+(10, 'Tweezer Set ESD-Safe', 'Contains 6 types of tweezers. The manufacturer claims these are made of stainless steel material. But quick checks shows that, with the exception of ESD-11, all are strongly attracted to magnets.', 'Tools', 65, 66, 'assets/products/tools/tweezer-esd.png'),
 (11, 'Raspberry Pi Pico', 'Raspberry Pi Pico is a low-cost, high-performance microcontroller board with flexible digital interfaces using RP2040 having dual-core Arm Cortex M0+ processor, flexible clock running up to 133 MHz. The Raspberry Pi Pico is programmed in C / C ++ and MicroPython via the microUSB connector.', 'Microcontrollers', 350, 99, 'assets/products/microcontrollers/pico.png'),
 (12, 'Raspberry Pi Pico W', 'Raspberry Pi Pico W module equipped with the proprietary Raspberry RP2040 microcontroller with the CYW43439 wireless communication system. CYW43439, WiFi IEEE 802.11 b / g / n wireless communication is possible.', 'Microcontrollers', 500, 69, 'assets/products/microcontrollers/pico-w.png'),
 (13, 'Arduino Uno R3', 'Uno R3 is the most popular development board among Arduino family. Based on Atmel’s ATmega328 microcontroller this board offers 14 digital input/output pins. 6 pins can be used as PWM outputs and the 6 analogue pins.', 'Microcontrollers', 449, 210, 'assets/products/microcontrollers/arduino-uno.png'),
@@ -124,7 +130,7 @@ INSERT INTO `product` (`id`, `name`, `description`, `category`, `price`, `stock`
 (36, 'MQ-7 Carbon Monoxide Sensor', 'Power Supply: 5VDC; Output: Digital(1 bit) + Analog', 'Sensors', 95, 106, 'assets/products/sensors/mq-7.png'),
 (37, 'AC Power Analyzer 20Amps', 'AC Power Analyzer 20A/4400VA in an acrylic shell. AC Only Power Analyzer utilizing Hall Effect current sensor for greater power handling capacity.', 'Sensors', 970, 53, 'assets/products/sensors/power-analyzer.png'),
 (38, 'Line Tracking Sensor/ Proximity Sensor', 'KY-033 Sensor is built using TCRT5000 IR sensor. It is used primarily as line tracking sensor in DIY robots. Needs 2.5-12v DC.', 'Sensors', 49, 450, 'assets/products/sensors/line-tracing.png'),
-(39, 'DHT11 Humidity and Temperature Sensor', 'Features a temperature & humidity sensor complex with a calibrated digital signal output. By using the exclusive digital-signal-acquisition technique and temperature & humidity sensing technology, it ensures high reliability and excellent long-term stability. Needs 3-5v DC.', 'Sensors', 82, 108, 'assets/products/sensors/sensors/dht11-humidity.png'),
+(39, 'DHT11 Humidity and Temperature Sensor', 'Features a temperature & humidity sensor complex with a calibrated digital signal output. By using the exclusive digital-signal-acquisition technique and temperature & humidity sensing technology, it ensures high reliability and excellent long-term stability. Needs 3-5v DC.', 'Sensors', 82, 108, 'assets/products/sensors/dht11-humidity.png'),
 (40, 'HMC5883L Tri-axis Electronic Compass', 'Can be used in strong magnetic field environments with a 1 degree to 2 degrees Compass Heading Accuracy. The HMC5883L Digital Compass is a surfacemount, multi chip designed for low field magnetic sensing with a digital interface for applications such as low cost compassing and magnetometry. Needs 3-5v DC.', 'Sensors', 155, 128, 'assets/products/sensors/HMC5883L-compass.png'),
 (41, '1.3\" I2C OLED Display', 'OLED monochrome 128x64 dot matrix display module with I2C Interface. It is perfect when you need an ultra-small display.', 'Display', 450, 50, 'assets/products/display/I2C-OLED.png'),
 (42, 'LCD I2C 1602 BLUE', '16x2 Character LCD Module with I2C Board. Need 5v DC power.', 'Display', 145, 105, 'assets/products/display/lcd-16by2.png'),
@@ -153,7 +159,9 @@ ALTER TABLE `account`
 -- Indexes for table `cart`
 --
 ALTER TABLE `cart`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`,`productId`),
+  ADD KEY `productId` (`productId`);
 
 --
 -- Indexes for table `product`
@@ -173,10 +181,27 @@ ALTER TABLE `account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `account` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
