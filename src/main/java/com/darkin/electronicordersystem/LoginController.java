@@ -51,9 +51,14 @@ public class LoginController implements Initializable {
         File lockFile = new File("assets/icons/codicon--account-white.png");
         Image lockImage =  new Image(lockFile.toURI().toString());//do no what is this for.
         lockImageView.setImage(lockImage);
+
     }
+
 //TODO: Need validators
+
+
     public void loginButtonAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        loginMessageLabel.setText("");
         if(usernameTextField.getText().isBlank() || enterPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Enter your username or password");
         }else {
@@ -67,6 +72,7 @@ public class LoginController implements Initializable {
                     loginMessageLabel.setText("Login successfully!");
                 }catch (SQLException e){
                     System.err.println("Error occur while fetching user info: " + e);
+                    loginMessageLabel.setText("Error occurred while logging in!");
                     throw e;
                 }
 

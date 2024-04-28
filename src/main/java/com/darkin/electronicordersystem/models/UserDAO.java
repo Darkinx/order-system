@@ -29,7 +29,6 @@ public class UserDAO {
         String stmt = "INSERT INTO account (username, password, fname, lname, address, email) VALUES ";
 
         stmt += String.format("('%s','%s','%s','%s','%s','%s')", user.getUsername(), user.getPassword(), user.getFname(), user.getLname(), user.getAddress(), user.getEmail());
-
         try {
             dbUtil.executeUpdate(stmt);
         }catch (SQLException e){
