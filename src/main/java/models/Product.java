@@ -1,4 +1,4 @@
-package  model;
+package models;
 public class Product{
     private  int id;
     private String name;
@@ -7,6 +7,7 @@ public class Product{
     private  Double price;
     private String image_path;
     private  int stock;
+    private int quantity;
 
     public Product(){
 
@@ -26,6 +27,14 @@ public class Product{
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getImage_path() {

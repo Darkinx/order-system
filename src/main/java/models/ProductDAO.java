@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import com.darkin.electronicordersystem.DatabaseConnection;
 import javafx.collections.FXCollections;
@@ -27,10 +27,11 @@ public class ProductDAO {
 
     //Cart SQL Statements
     public ObservableList<Product> getAllCart(int userId) throws SQLException, ClassNotFoundException{
-        String stmt = "SELECT product.name, cart.quantity, product.price, product.image_path FROM `cart` INNER JOIN `product` ON `productId`=product.id WHERE `isBought`=0 AND `userId`=" + userId + ";";
+        String stmt = "SELECT product.name, cart.id, product.stock ,cart.quantity, product.price, product.image_path FROM `cart` INNER JOIN `product` ON `productId`=product.id WHERE `isBought`=0 AND `userId`=" + userId + ";";
         try {
             CachedRowSet tmpRowSet = dbUtil.selectQuery(stmt);
             ObservableList<Product> cartList = getCartList(tmpRowSet);
+            System.out.println(cartList.toString());
             return cartList;
         }catch (SQLException e){
             System.err.println("SQL Select Operation failed: " + e);
@@ -118,14 +119,21 @@ public class ProductDAO {
         ObservableList<Product> cartLst = FXCollections.observableArrayList();
         while(rs.next()){
             Product product = new Product();
+            product.setId(rs.getInt("id"));
             product.setName(rs.getString("name"));
             product.setPrice(rs.getDouble("price"));
-            product.setStock(rs.getInt("quantity"));
+            product.setStock(rs.getInt("stock"));
+            product.setQuantity(rs.getInt("quantity"));
             product.setImage_path(rs.getString("image_path"));
+            System.out.println("id:" + product.getId());
 
             cartLst.add(product);
         }
 
         return  cartLst;
+    }
+    private static void checkCartItem(){
+        //TODO: Have a way to check if the addToCart again was clicked and have the same product to existing item in the cart
+        //If has item -> Update; Else -> Insert
     }
 }

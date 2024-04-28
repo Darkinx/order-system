@@ -6,14 +6,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import model.Product;
-import model.ProductDAO;
+import models.Product;
+import models.ProductDAO;
+import models.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +24,11 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-    private String username;
+    private User user = new User();
     private ObservableList<Product> products;
     private ProductDAO productDAO = new ProductDAO();
     private MyListener myListener;
+    private MyListener cartListener;
     private AnchorPane productViewAnchorPane;
     private AnchorPane cartMenuAnchorPane;
     private AnchorPane profileAnchorPane; //Still not decided
@@ -41,6 +44,8 @@ public class HomeController implements Initializable {
     private Button cartButton;
     @FXML
     private Button userIconButton;
+    @FXML
+    private Label userNameLabel;
     @FXML
     private Button toolButton;
     @FXML
@@ -69,6 +74,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        TODO: Add all the needed first run here
+
         try {
             products = productDAO.getAllProducts();
         } catch (SQLException e) {
@@ -82,6 +88,13 @@ public class HomeController implements Initializable {
                 @Override
                 public void onClickListener(Product product) {
                     selectProduct(product);
+                }
+            };
+
+            cartListener = new MyListener() {
+                @Override
+                public void onClickListener(Product product) {
+                    addToCart(product);
                 }
             };
         }
@@ -134,19 +147,21 @@ public class HomeController implements Initializable {
         //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
         productMenuVBox.toFront();
         System.out.println("Test menuAction");
-//        setupGridPane(); //resolved first the problem of the lag due to query, use threads
+//      setupGridPane(); //resolved first the problem of the lag due to query, use threads
 
     }
     public void cartButtonAction(ActionEvent event){
         cartMenuAnchorPane.toFront();
+        cartMenuController.setData(user.getId());
         System.out.println("cart button clicked");
 
     }
-    public void setUsername(String username){
-        this.username = username;
+    public void setUser(User user){
+        this.user = user;
+        userNameLabel.setText(user.getUsername()); //this is extra
     }
     private void selectProduct(Product product){
-        productViewController.setData(product);
+        productViewController.setData(product, cartListener);
         productViewAnchorPane.toFront();
     }
     private void setupGridPane(){
@@ -184,6 +199,16 @@ public class HomeController implements Initializable {
         }catch (IOException e){
             System.err.println("Error occurred: " + e);
 
+        }
+    }
+    private void addToCart(Product product){
+        System.out.println("addToCart button pressed");
+        try {
+            productDAO.addCart(user.getId(), product.getId(), product.getStock());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
