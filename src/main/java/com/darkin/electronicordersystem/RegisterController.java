@@ -14,16 +14,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.User;
+import models.UserDAO;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
 public class RegisterController implements Initializable {
+    private final UserDAO userConn = new UserDAO();
+
     @FXML
     private ImageView profileImageView;
     @FXML
@@ -52,7 +55,16 @@ public class RegisterController implements Initializable {
 
             if(setPasswordField.getText().equals(confirmPasswordField.getText())) {
                 passwordMessageLabel.setText("Passwords matched!");
-                registerUser();
+                try {
+                    userConn.registerUser(getQuery());
+                    registrationMessageLabel.setText("Registered successfully");
+
+                } catch (SQLException e) {
+                    registrationMessageLabel.setText("Something's wrong");
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 loginAccountForm();
                 closeForm();
             }else{
@@ -88,40 +100,16 @@ public class RegisterController implements Initializable {
         stage.close();
     }
 
-    public void registerUser(){
-        //instancing connection to DB
-        DatabaseConnection con = new DatabaseConnection();
-        Connection connectDB = con.getConnection();
+    private User getQuery() {
+        User user = new User();
 
-        String insertQuery = getQuery();
+        user.setUsername(usernameTextField.getText());
+        user.setPassword(setPasswordField.getText());
+        user.setFname(firstnameTextField.getText());
+        user.setLname(lastnameTextField.getText());
+        user.setAddress(addressTextField.getText());
+        user.setEmail(emailTextField.getText());
 
-        try{
-            Statement st = connectDB.createStatement();
-            st.executeUpdate(insertQuery);
-
-            registrationMessageLabel.setText("Registered successfully");
-
-        }catch (Exception e){
-            registrationMessageLabel.setText("Something's wrong");
-            e.getStackTrace();
-            e.getCause();
-        }
+        return user;
     }
-
-    private String getQuery() {
-        String uname = usernameTextField.getText();
-        String pass = setPasswordField.getText();
-        String fname = firstnameTextField.getText();
-        String lname = lastnameTextField.getText();
-        String address = addressTextField.getText();
-        String email = emailTextField.getText();
-
-        String insertField = "INSERT INTO account (username, password, fname, lname, address, email) VALUES ";
-        String insertValues = String.format("('%s','%s','%s','%s','%s','%s')",uname,pass,fname,lname,address,email);
-        String insertQuery = insertField + insertValues;
-//        System.out.println(insertQuery);
-        return insertQuery;
-    }
-
-
 }

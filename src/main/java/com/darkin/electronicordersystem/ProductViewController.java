@@ -9,19 +9,17 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Product;
-import model.ProductDAO;
-import model.User;
+import models.Product;
+import models.ProductDAO;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.net.URL;
 
 public class ProductViewController implements Initializable {
     private ProductDAO productDAO = new ProductDAO();
     private Product product;
-    private User user;
+    private MyListener cartListener;
 
     @FXML
     private Button addToCartButton;
@@ -52,8 +50,9 @@ public class ProductViewController implements Initializable {
     }
 
     //TODO: Set max value of Spinner to stock
-    public void setData(Product product){
+    public void setData(Product product, MyListener listener){
         this.product = product;
+        this.cartListener = listener;
         productnameLabel.setText(product.getName());
         descriptionLabel.setText(product.getDescription());
         priceLabel.setText(Main.CURRENCY + product.getPrice());
@@ -75,16 +74,8 @@ public class ProductViewController implements Initializable {
     public void backButton(ActionEvent event){
 
     }
-
     public void addToCartAction(ActionEvent event){
-        System.out.println("addToCart button pressed");
-        try {
-            productDAO.addCart(user.getId(), product.getId(), quantitySpinner.getValue());
-            System.out.println("addToCart button pressed");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        product.setStock(quantitySpinner.getValue());
+        cartListener.onClickListener(product);
     }
 }

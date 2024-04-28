@@ -13,17 +13,20 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.stage.StageStyle;
+import models.User;
+import models.UserDAO;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
 public class LoginController implements Initializable {
+    private UserDAO userConn = new UserDAO();
+    private User user;
+
     @FXML
     private Button cancelButton, loginButton;
     @FXML
@@ -50,15 +53,27 @@ public class LoginController implements Initializable {
         lockImageView.setImage(lockImage);
     }
 //TODO: Need validators
-    public void loginButtonAction(ActionEvent event){
+    public void loginButtonAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         if(usernameTextField.getText().isBlank() || enterPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Enter your username or password");
         }else {
             String username = usernameTextField.getText();
             String password = enterPasswordField.getText();
-            if(validateLogin(username, password)) {
-                createHomeForm(username);
+            if(userConn.validateLogin(username, password)) {
+                System.out.println("Login tested");
+                loginMessageLabel.setText("Permission to enter"); //need a way to have a pseudo layout of the buying form
+                try{
+                    user = userConn.getUserInfo(username, password);
+                    loginMessageLabel.setText("Login successfully!");
+                }catch (SQLException e){
+                    System.err.println("Error occur while fetching user info: " + e);
+                    throw e;
+                }
+
+                createHomeForm();
                 closeForm();
+            }else{
+                loginMessageLabel.setText("Invalid Login. Please try again.");
             }
         }
     }
@@ -97,17 +112,17 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void createHomeForm(String username){
+    public void createHomeForm(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
 //            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1315, 850);
+            Scene scene = new Scene(fxmlLoader.load(), 1315, 750);
             Stage stage = new Stage();
             stage.setTitle("E-Gizmo HOME");
             stage.setScene(scene);
 
             HomeController hmControl = fxmlLoader.getController();
-            hmControl.setUsername(username);
+            hmControl.setUser(user);
 
             stage.show();
         }catch (IOException e){
@@ -115,37 +130,5 @@ public class LoginController implements Initializable {
             e.getCause();
         }
     }
-//TODO: Separate any interface to the Database
-    public boolean validateLogin(String username, String password){
-        //instancing connection to DB
-        DatabaseConnection con = new DatabaseConnection();
-        Connection connectDB = con.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM account WHERE username='" + username + "' AND password='" + password + "'";
-
-        try{
-            Statement st = connectDB.createStatement();
-            ResultSet queryResult = st.executeQuery(verifyLogin);
-
-            while(queryResult.next()){
-                if(queryResult.getInt(1) == 1){
-                    System.out.println("Login tested");
-                    loginMessageLabel.setText("Permission to enter"); //need a way to have a pseudo layout of the buying form
-                    return true;
-                }else{
-                    loginMessageLabel.setText("Invalid Login. Please try again.");
-                    return false;
-                }
-            }
-        }catch (Exception e){
-            e.getStackTrace();
-            e.getCause();
-        }
-        return false;
-    }
-
-//    @FXML
-//    protected void onHelloButtonClick() {
-//        welcomeText.setText("Welcome to JavaFX Application!");
-//    }
 }
