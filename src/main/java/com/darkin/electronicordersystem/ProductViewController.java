@@ -9,8 +9,8 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import models.Product;
-import models.ProductDAO;
+import com.darkin.electronicordersystem.models.Product;
+import com.darkin.electronicordersystem.models.ProductDAO;
 
 import java.io.File;
 import java.util.ResourceBundle;

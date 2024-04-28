@@ -13,9 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import models.Product;
-import models.ProductDAO;
-import models.User;
+import com.darkin.electronicordersystem.models.Product;
+import com.darkin.electronicordersystem.models.ProductDAO;
+import com.darkin.electronicordersystem.models.User;
 
 import java.io.File;
 import java.io.IOException;

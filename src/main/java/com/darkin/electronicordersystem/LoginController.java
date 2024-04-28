@@ -13,8 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.stage.StageStyle;
-import models.User;
-import models.UserDAO;
+import com.darkin.electronicordersystem.models.User;
+import com.darkin.electronicordersystem.models.UserDAO;
 
 import java.io.File;
 import java.io.IOException;

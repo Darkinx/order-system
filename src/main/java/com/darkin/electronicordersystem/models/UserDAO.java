@@ -1,4 +1,4 @@
-package models;
+package com.darkin.electronicordersystem.models;
 
 import com.darkin.electronicordersystem.DatabaseConnection;
 

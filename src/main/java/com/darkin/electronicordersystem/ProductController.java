@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseEvent;
-import models.Product;
+import com.darkin.electronicordersystem.models.Product;
 
 import java.io.File;
 

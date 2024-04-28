@@ -1,4 +1,4 @@
-package models;
+package com.darkin.electronicordersystem.models;
 
 public class User {
     private int id;

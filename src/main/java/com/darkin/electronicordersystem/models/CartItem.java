@@ -1,4 +1,4 @@
-package models;
+package com.darkin.electronicordersystem.models;
 
 import javafx.beans.property.*;
 

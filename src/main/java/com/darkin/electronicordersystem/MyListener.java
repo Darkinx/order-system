@@ -1,6 +1,6 @@
 package com.darkin.electronicordersystem;
 
-import models.Product;
+import com.darkin.electronicordersystem.models.Product;
 
 //Basic interface to carry the product item
 public interface MyListener  {
