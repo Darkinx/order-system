@@ -16,6 +16,7 @@ import javafx.scene.layout.*;
 import com.darkin.electronicordersystem.models.Product;
 import com.darkin.electronicordersystem.models.ProductDAO;
 import com.darkin.electronicordersystem.models.User;
+import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,8 @@ public class HomeController implements Initializable {
 
     @FXML
     private ImageView logoImageView;
+    @FXML
+    private Button mainMenuButton;
     @FXML
     private Button cartButton;
     @FXML
@@ -102,6 +105,8 @@ public class HomeController implements Initializable {
         File logoFile = new File("assets/logo/main-logo.png");
         Image logoImage = new Image(logoFile.toURI().toString());
         logoImageView.setImage(logoImage);
+        mainMenuButton.setGraphic(logoImageView);
+        mainMenuButton.setBackground(Background.fill(Color.TRANSPARENT));
 
         File cartFile = new File("assets/icons/iconoir--cart-white.png");
         Image cartImage = new Image(cartFile.toURI().toString());
@@ -143,7 +148,7 @@ public class HomeController implements Initializable {
         setupGridPane();
 
     }
-    public void mainMenuAction(MouseEvent mouseEvent){
+    public void mainMenuAction(ActionEvent event){
         //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
         productMenuVBox.toFront();
         System.out.println("Test menuAction");
