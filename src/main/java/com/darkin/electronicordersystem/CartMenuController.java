@@ -1,6 +1,11 @@
 package com.darkin.electronicordersystem;
 
+import com.darkin.electronicordersystem.UIComponents.ActionButtonTableCell;
+import com.darkin.electronicordersystem.models.*;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,14 +13,14 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import com.darkin.electronicordersystem.models.CartItem;
-import com.darkin.electronicordersystem.models.Product;
-import com.darkin.electronicordersystem.models.ProductDAO;
+import javafx.util.Callback;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class CartMenuController {
     private double total = 0; //full total of the cart
@@ -36,7 +41,7 @@ public class CartMenuController {
     @FXML
     private TableColumn<CartItem, Double> priceCol;
     @FXML
-    private TableColumn<CartItem, Integer> quantityColumn;
+    private TableColumn<CartItem, Item> quantityColumn;
     @FXML
     private TableColumn<CartItem, String> imageColumn;
     @FXML
@@ -47,6 +52,7 @@ public class CartMenuController {
 
     public void setData(int userId){
         total = 0;
+        totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
         this.userId = userId;
         initCols();
         try {
@@ -66,12 +72,15 @@ public class CartMenuController {
             alert.close();
 
             if (alert.getResult() == ButtonType.YES) {
-                //TODO implement the query here
 
                 Alert alertOK = new Alert((Alert.AlertType.NONE), "CHECKOUT COMPLETE !!", ButtonType.OK );
                 alertOK.showAndWait();
 
                 try {
+                    String billNo = Integer.toString(cartItems.hashCode());
+                    cartDAO.checkoutCart(userId,billNo);
+                    total = 0;
+                    totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
                     getCartItems();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -104,8 +113,8 @@ public class CartMenuController {
         itemNameCol.setCellValueFactory(cellData -> cellData.getValue().productNameProperty());
         priceCol.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());//the asObject part is probably needed due to being an integer
         totalUnitCol.setCellValueFactory(cellData -> cellData.getValue().totalPriceProperty().asObject());
-        quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
         imageColumn.setCellValueFactory(cellData -> cellData.getValue().image_pathProperty());
+        quantityColumn.setCellValueFactory(cellData -> Bindings.createObjectBinding(() -> cellData.getValue().getQuantity()));
 
         imageColumn.setCellFactory(col -> {
             TableCell<CartItem, String> cell = new TableCell<>();
@@ -120,24 +129,103 @@ public class CartMenuController {
             return cell;
         });
 
-        quantityColumn.setCellFactory(col -> {
-            TableCell<CartItem, Integer> cell = new TableCell<>();
+        quantityColumn.setCellFactory(new Callback<TableColumn<CartItem, Item>, TableCell<CartItem, Item>>() {
+            @Override
+            public TableCell<CartItem, Item> call(TableColumn<CartItem, Item> param) {
+                TableCell<CartItem, Item> cell = new TableCell<CartItem, Item>() {
 
-            cell.itemProperty().addListener((observable, o, newVal) -> {
-                if (newVal != null){
-                    Node graphic = createQuantitySpinner(newVal);
-                    cell.graphicProperty().bind(Bindings.when(cell.emptyProperty()).then((Node) null).otherwise(graphic));
+                    private final Spinner<Integer> count;
 
-                }
-            });
-            return cell;
+                    private final SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory;
+                    private final ChangeListener<Number> valueChangeListener;
+
+                    {//TODO: Move to new Component setup
+                        valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0);
+                        count = new Spinner<>(valueFactory);
+                        count.setVisible(false);
+                        setGraphic(count);
+                        valueChangeListener = (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                            if(newValue.intValue() <= 1){
+                                valueFactory.setValue(1);
+                            }else{
+                                valueFactory.setValue(newValue.intValue());
+                            }
+                            int quantityNow = valueFactory.getValue();
+                            CartItem item = getTableView().getItems().get(getIndex());
+                            try {
+                                cartDAO.updateQuantity(quantityNow, item.getId());
+                                total -= item.getTotalPrice();
+                                item.setQuantity(new Item(quantityNow, valueFactory.getMax()));
+                                //TODO have a way to set TotalPrice by having a EventHandler
+                                total += item.getTotalPrice();
+                                totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                } catch (ClassNotFoundException e) {
+                                    throw new RuntimeException(e);
+                            }
+
+                        };
+                        count.valueProperty().addListener(valueChangeListener);
+//                        count.valueProperty().addListener((obs, oldValue, newValue) -> {
+//                            if (getItem() != null) {
+//                                // write new value to table item
+//                                    getItem().setItemCount(newValue);
+//
+//                                System.out.println("New value: " + newValue);
+//
+//                            }
+//                        });
+                    }
+
+
+                    @Override
+                    public void updateItem(Item item, boolean empty) {
+                        // unbind old values
+                        valueFactory.maxProperty().unbind();
+                        if (getItem() != null) {
+                            getItem().itemCountProperty().removeListener(valueChangeListener);
+                        }
+
+                        super.updateItem(item, empty);
+
+                        // update according to new item
+                        if (empty || item == null) {
+                            count.setVisible(false);
+                        } else {
+                            valueFactory.maxProperty().bind(item.itemMaxCountProperty());
+                            valueFactory.setValue(item.getItemCount());
+                            item.itemCountProperty().addListener(valueChangeListener);
+                            count.setVisible(true);
+                        }
+
+                    }
+                };
+                return cell;
+            }
         });
 
+        File trashFile = new File("assets/icons/bi--trash.png");
+        Image trashImage = new Image(trashFile.toURI().toString());
 
 
-//        quantityColumn.setCellValueFactory(new PropertyValueFactory<CartItem, Integer>("quantitySpinner"));//what you put here is the name of the properties
-//        imageColumn.setCellValueFactory(new PropertyValueFactory<CartItem, String>("productImage"));//put the variable here
-//        removeCol.setCellValueFactory(new PropertyValueFactory<CartItem, Void>("remove"));
+        removeCol.setCellFactory(ActionButtonTableCell.<CartItem, Void>forTableColumn(trashImage, c -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = confirm.showAndWait();
+            if(result.get() == ButtonType.YES){
+                try {
+                    cartTable.getItems().remove(c);
+                    cartDAO.removeItemFromCart(c.getId());
+                    total -=c.getTotalPrice();
+                    totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }));
+
     }
 
     private void getCartItems() throws SQLException, ClassNotFoundException{
@@ -145,18 +233,19 @@ public class CartMenuController {
         ObservableList<Product> products = cartDAO.getAllCart(userId);
 
         products.forEach(product -> {
-            System.out.println("Product id:" + product.getId());
+//            System.out.println("Product id:" + product.getId());
             CartItem item = new CartItem();
             item.setId(product.getId());
             item.setProductName(product.getName());
             item.setPrice(product.getPrice());
             item.setImage_path(product.getImage_path());
-            item.setQuantity(product.getQuantity());
-            item.setTotalPrice(item.getPrice()*item.getQuantity());
+            item.setQuantity(new Item(product.getQuantity(), product.getStock()));
+            item.setTotalPrice(item.getPrice()*item.getQuantity().getItemCount());
 
             total += item.getTotalPrice();
             totalCostLabel.setText(Main.CURRENCY  + Double.toString(total));
             //TODO: Fetch the stock
+
 
 //
 //            item.setQuantitySpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getQuantity()));
@@ -206,17 +295,12 @@ public class CartMenuController {
         HBox graphicCon = new HBox();
         graphicCon.setAlignment(Pos.CENTER);
         File fileImage = new File(imagePath);
-        ImageView productImageView = new ImageView(fileImage.toURI().toString());
+ImageView productImageView = new ImageView(fileImage.toURI().toString());
         productImageView.setFitWidth(200);
         productImageView.setPreserveRatio(true);
         graphicCon.getChildren().add(productImageView);
         return graphicCon;
     }
 
-    private Node createQuantitySpinner(int quantity){
-        Spinner<Integer> quantitySpinner = new Spinner<>(quantity, Integer.MAX_VALUE, 1);
-
-        return quantitySpinner;
-    }
 
 }

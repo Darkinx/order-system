@@ -9,7 +9,7 @@ public class CartItem {
     private DoubleProperty price;
 //    ImageView productImage;
     private StringProperty image_path;
-    private IntegerProperty quantity;
+    private Item quantity;
     private DoubleProperty totalPrice;
 //    Button remove;
 //    SpinnerValueFactory.IntegerSpinnerValueFactory quantitySpinner;
@@ -19,7 +19,7 @@ public class CartItem {
         this.productName = new SimpleStringProperty();
         this.price = new SimpleDoubleProperty();
         this.image_path = new SimpleStringProperty();
-        this.quantity = new SimpleIntegerProperty();
+//        this.quantity = new SimpleIntegerProperty();
         this.totalPrice = new SimpleDoubleProperty();
 
     }
@@ -34,6 +34,15 @@ public class CartItem {
 
     public void setId(int id) {
         this.id.set(id);
+    }
+
+
+    public Item getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Item quantity) {
+        this.quantity = quantity;
     }
 
     public String getProductName() {
@@ -84,17 +93,7 @@ public class CartItem {
         this.totalPrice.set(totalPrice);
     }
 
-    public int getQuantity() {
-        return quantity.get();
-    }
 
-    public IntegerProperty quantityProperty() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
-    }
 
 
 //    public void setProductImage(String imagePath) {
