@@ -42,12 +42,20 @@ public class ProductDAO {
         }
     }
     public void addCart(int account_id, int product_id, int quantity) throws  SQLException, ClassNotFoundException{
+        String chkStmt = String.format("SELECT count(1), `id`, `quantity` FROM `cart` WHERE `account_id`=%d AND `product_id`=%d",account_id, product_id);
         String stmt = String.format("INSERT INTO `cart` " +
                 "(`account_id`, `product_id`, `quantity`) " +
                 "VALUES ('%d', '%d', '%d');", account_id, product_id, quantity);
 
         try {
-            dbUtil.executeUpdate(stmt);
+            CachedRowSet chkRs = dbUtil.selectQuery(chkStmt);
+            while(chkRs.next()){
+                if (chkRs.getInt(1) ==1){
+                    this.updateQuantity(quantity + chkRs.getInt("quantity"), chkRs.getInt("id"));
+                }else{
+                    dbUtil.executeUpdate(stmt);
+                }
+            }
         }catch (SQLException e){
             System.err.println("Error Occurred while inserting: " + e);
             throw e;
@@ -156,17 +164,11 @@ public class ProductDAO {
             product.setStock(rs.getInt("stock"));
             product.setQuantity(rs.getInt("quantity"));
             product.setImage_path(rs.getString("image_path"));
-            System.out.println("id:" + product.getId());
 
             cartLst.add(product);
         }
 
         return  cartLst;
-    }
-    private static void checkCartItem(Product product, int account_id){
-        //TODO: Have a way to check if the addToCart again was clicked and have the same product to existing item in the cart
-        //If has item -> Update; Else -> Insert
-
     }
 
     /**
