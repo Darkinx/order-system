@@ -15,7 +15,7 @@
          <children>
             <ImageView fx:id="profileImageView" fitHeight="53.0" fitWidth="55.0" layoutX="28.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../assets/icons/line-md--account-white.png" />
+                  <Image url="@../../../../../../../assets/icons/line-md--account-white.png" />
                </image>
             </ImageView>
             <Label layoutX="104.0" layoutY="23.0" prefHeight="37.0" prefWidth="212.0" text="User Registration" textFill="WHITE">

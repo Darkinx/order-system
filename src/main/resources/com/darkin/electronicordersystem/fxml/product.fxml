@@ -14,7 +14,7 @@
          <children>
             <ImageView fx:id="productImageView" fitHeight="235.0" preserveRatio="true" VBox.vgrow="ALWAYS">
                <image>
-                  <Image url="@../../../../../../assets/products/sample/gizLIN.png" />
+                  <Image url="@../../../../../../../assets/products/sample/gizLIN.png" />
                </image>
             </ImageView>
             <Label fx:id="productnameLabel" alignment="TOP_LEFT" prefHeight="69.0" prefWidth="300.0" text="gizDuino Lin-Uno KLADJVKEJFIEAJFDJFA ADFKJEF ASKDFJKSD  aefKL awekfjak  kljfafiej  keifjae jeifuaef " wrapText="true">

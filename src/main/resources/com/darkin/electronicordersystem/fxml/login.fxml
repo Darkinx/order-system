@@ -16,7 +16,7 @@
          <children>
             <ImageView fx:id="brandingImageView" fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../assets/logo/main-logo.png" />
+                  <Image url="@../../../../../../../assets/logo/main-logo.png" />
                </image>
             </ImageView>
             <Button fx:id="signupButton" alignment="CENTER" layoutX="19.0" layoutY="316.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="24.0" prefWidth="192.0" style="-fx-background-color: #00000000;" text="No account? Sign up now!" textFill="#5bd0dd">
@@ -32,7 +32,7 @@
          <children>
             <ImageView fx:id="lockImageView" fitHeight="125.0" fitWidth="137.0" layoutX="83.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../assets/icons/codicon--account-white.png" />
+                  <Image url="@../../../../../../../assets/icons/codicon--account-white.png" />
                </image>
             </ImageView>
             <Label layoutX="20.0" layoutY="191.0" text="Username" textFill="WHITE">

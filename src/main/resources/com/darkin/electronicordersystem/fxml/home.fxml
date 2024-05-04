@@ -28,7 +28,7 @@
                            <graphic>
                               <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="200.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../assets/logo/main-logo.png" />
+                                    <Image url="@../../../../../../../assets/logo/main-logo.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -37,7 +37,7 @@
                         <Button fx:id="cartButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#cartButtonAction" prefHeight="50.0" prefWidth="40.0" style="-fx-background-color: #00000000;">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="40.0" preserveRatio="true">
-                                 <Image url="@../../../../../../assets/icons/iconoir--cart-white.png" />
+                                 <Image url="@../../../../../../../assets/icons/iconoir--cart-white.png" />
                               </ImageView>
                            </graphic>
                            <HBox.margin>
@@ -48,7 +48,7 @@
                            <graphic>
                               <ImageView fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../assets/icons/codicon--account-white.png" />
+                                    <Image url="@../../../../../../../assets/icons/codicon--account-white.png" />
                                  </image>
                               </ImageView>
                            </graphic>
