@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
     //TODO: Still don't know how to perform this.
     public void createAccountForm(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/register.fxml"));
 //            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 520, 650);
             Stage stage = new Stage();
@@ -120,7 +120,7 @@ public class LoginController implements Initializable {
 
     public void createHomeForm(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/home.fxml"));
 //            Parent root = (Parent) FXMLLoader.load(getClass().getResource("register.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1315, 750);
             Stage stage = new Stage();

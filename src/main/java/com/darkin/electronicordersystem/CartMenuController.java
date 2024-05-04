@@ -2,7 +2,6 @@ package com.darkin.electronicordersystem;
 
 import com.darkin.electronicordersystem.UIComponents.ActionButtonTableCell;
 import com.darkin.electronicordersystem.models.*;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -78,7 +77,7 @@ public class CartMenuController {
 
                 try {
                     String billNo = Integer.toString(cartItems.hashCode());
-                    cartDAO.checkoutCart(userId,billNo);
+                    cartDAO.checkoutCart(userId, total, billNo);
                     total = 0;
                     totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
                     getCartItems();
@@ -295,7 +294,7 @@ public class CartMenuController {
         HBox graphicCon = new HBox();
         graphicCon.setAlignment(Pos.CENTER);
         File fileImage = new File(imagePath);
-ImageView productImageView = new ImageView(fileImage.toURI().toString());
+        ImageView productImageView = new ImageView(fileImage.toURI().toString());
         productImageView.setFitWidth(200);
         productImageView.setPreserveRatio(true);
         graphicCon.getChildren().add(productImageView);

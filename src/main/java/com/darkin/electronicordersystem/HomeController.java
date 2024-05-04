@@ -1,5 +1,6 @@
 package com.darkin.electronicordersystem;
 
+import com.darkin.electronicordersystem.models.MyListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import com.darkin.electronicordersystem.models.Product;
 import com.darkin.electronicordersystem.models.ProductDAO;
@@ -126,10 +126,10 @@ public class HomeController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             FXMLLoader fxmlLoader2 = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("cartMenu.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("fxml/cartMenu.fxml"));
             cartMenuAnchorPane = fxmlLoader.load();
             cartMenuController = fxmlLoader.getController();
-            fxmlLoader2.setLocation(getClass().getResource("productView.fxml"));
+            fxmlLoader2.setLocation(getClass().getResource("fxml/productView.fxml"));
             productViewAnchorPane = fxmlLoader2.load();
             productViewController = fxmlLoader2.getController();
         }catch (IOException e){
@@ -175,7 +175,7 @@ public class HomeController implements Initializable {
         try{
             for (int i = 0; i < products.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("product.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("fxml/product.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ProductController productController = fxmlLoader.getController();

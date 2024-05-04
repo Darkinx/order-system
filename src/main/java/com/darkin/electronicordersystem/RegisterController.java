@@ -1,7 +1,6 @@
 package com.darkin.electronicordersystem;
 
 import javafx.application.Platform;
-import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -103,7 +102,7 @@ public class RegisterController implements Initializable {
 
     private void loginAccountForm(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/login.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 520, 400);
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED); //this remove the window button (maximize, close, and minimize)

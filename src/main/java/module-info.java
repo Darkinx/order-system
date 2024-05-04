@@ -16,4 +16,6 @@ module com.darkin.electronicordersystem {
 
     opens com.darkin.electronicordersystem to javafx.fxml;
     exports com.darkin.electronicordersystem;
+    exports com.darkin.electronicordersystem.models;
+    opens com.darkin.electronicordersystem.models to javafx.fxml;
 }
