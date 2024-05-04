@@ -54,6 +54,31 @@
   </dependencies>
 
   <build>
+<!--    TODO: Problematic need to update implementation-->
+<!--    <resources>-->
+<!--      <resource>-->
+<!--        <directory>src/main/java</directory>-->
+<!--        <includes>-->
+<!--          <include>**/*.java</include>-->
+<!--            <include>**/*.fxml</include>-->
+<!--            <include>**/*.css</include>-->
+<!--        </includes>-->
+<!--      </resource>-->
+<!--    <resource>-->
+<!--        <directory>src/main/resources</directory>-->
+<!--        <includes>-->
+<!--            <include>**/*.fxml</include>-->
+<!--            <include>**/*.css</include>-->
+<!--        </includes>-->
+<!--    </resource>-->
+<!--    <resource>-->
+<!--        <directory>${project.basedir}/src/main/java/com/darkin/electronicordersystem/controllers</directory>-->
+<!--        <includes>-->
+<!--            <include>**/*.java</include>-->
+<!--        </includes>-->
+<!--    </resource>-->
+<!--    </resources>-->
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -82,6 +107,7 @@
               <noHeaderFiles>true</noHeaderFiles>
             </configuration>
           </execution>
+
         </executions>
       </plugin>
     </plugins>
