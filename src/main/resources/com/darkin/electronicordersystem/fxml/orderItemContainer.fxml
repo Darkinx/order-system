@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<GridPane alignment="CENTER" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.darkin.electronicordersystem.CartItem">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="50.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="105.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="180.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <Label fx:id="quantityLabel" text="5" GridPane.halignment="CENTER" />
+      <ImageView fx:id="productImageView" fitHeight="104.0" fitWidth="166.0" preserveRatio="true" GridPane.columnIndex="1">
+         <image>
+            <Image url="@../../../../../../../assets/products/passive/switch-slide.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="productnameLabel" prefHeight="92.0" prefWidth="165.0" text="Gizduino Lin-Uno" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+      <Label fx:id="unitPriceLabel" text="P485.00" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+      <Label fx:id="totalPriceLabel" alignment="CENTER" text="P485.00" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+   </children>
+</GridPane>
