@@ -8,9 +8,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,33 +15,6 @@
     <children>
         <VBox prefHeight="600.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <GridPane alignment="CENTER" prefHeight="40.0" prefWidth="1315.0" style="-fx-background-color: #7b58aa;">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="124.0" text="CART" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                     <font>
-                        <Font name="Noto Sans Regular" size="20.0" />
-                     </font>
-                  </Label>
-                        <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Back" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Button>
-                    </children>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <padding>
-                        <Insets left="20.0" right="20.0" />
-                    </padding>
-                </GridPane>
                 <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="500.0" prefWidth="1315.0" VBox.vgrow="ALWAYS">
                     <content>
                         <AnchorPane prefHeight="338.0" prefWidth="1071.0">
@@ -54,7 +24,7 @@
                               <Image url="@../../../../../../../assets/products/sample/gizLIN.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="productnameLabel" alignment="TOP_LEFT" layoutX="664.0" layoutY="44.0" prefHeight="176.0" prefWidth="582.0" text="Gizduino Lin-Uno" wrapText="true">
+                        <Label fx:id="productnameLabel" alignment="TOP_LEFT" layoutX="664.0" layoutY="44.0" prefHeight="159.0" prefWidth="582.0" text="Gizduino Lin-Uno" wrapText="true">
                            <font>
                               <Font name="Luxi Sans Regular" size="40.0" />
                            </font>
@@ -69,7 +39,7 @@
                         </Label>
                         <Spinner fx:id="quantitySpinner" layoutX="672.0" layoutY="346.0" prefHeight="50.0" prefWidth="95.0" AnchorPane.topAnchor="346.0" />
                         <Button fx:id="addToCartButton" layoutX="794.0" layoutY="346.0" mnemonicParsing="false" onAction="#addToCartAction" prefHeight="50.0" prefWidth="436.0" text="Add to Cart" AnchorPane.leftAnchor="794.0" AnchorPane.topAnchor="346.0" />
-                        <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="107.0" layoutY="439.0" prefHeight="88.0" prefWidth="1122.0" text="Uses the same micro com.darkin.electronicordersystem.controller as the Arduino Uno R3 (ATMEGA328P + LIN SOC), and is 100% code compatible with the popular Arduino Uno board. LIN (Local Interconnect Network) is a robust hardware and software serial network used to connect and communicate with automotive components." wrapText="true" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="107.0" AnchorPane.topAnchor="439.0">
+                        <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="107.0" layoutY="439.0" prefHeight="125.0" prefWidth="1122.0" text="Uses the same micro com.darkin.electronicordersystem.controller as the Arduino Uno R3 (ATMEGA328P + LIN SOC), and is 100% code compatible with the popular Arduino Uno board. LIN (Local Interconnect Network) is a robust hardware and software serial network used to connect and communicate with automotive components." wrapText="true" AnchorPane.leftAnchor="107.0" AnchorPane.topAnchor="439.0">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>

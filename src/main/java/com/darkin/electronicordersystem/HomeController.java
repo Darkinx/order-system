@@ -69,6 +69,14 @@ public class HomeController implements Initializable {
     private StackPane stackPane;
     @FXML
     private VBox productMenuVBox;
+    @FXML
+    private HBox itemFilterHbox;
+    @FXML
+    private  GridPane headerGridPane;
+    @FXML
+    private  Button backButton;
+
+
 
 
 
@@ -151,8 +159,7 @@ public class HomeController implements Initializable {
     public void mainMenuAction(ActionEvent event){
         //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
         productMenuVBox.toFront();
-        System.out.println("Test menuAction");
-//      setupGridPane(); //resolved first the problem of the lag due to query, use threads
+        setupGridPane(); //resolved first the problem of the lag due to query, use threads
 
     }
     public void cartButtonAction(ActionEvent event){

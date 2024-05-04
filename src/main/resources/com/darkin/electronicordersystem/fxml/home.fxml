@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -67,43 +68,74 @@
                      <children>
                         <VBox fx:id="productMenuVBox" prefHeight="650.0" prefWidth="1315.0">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="775.0" spacing="10.0" style="-fx-background-color: #122b76;">
+                              <AnchorPane prefHeight="50.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="toolButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Tools/ Equipment" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="DejaVu Sans" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="microcontrollerButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Microcontrollers" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font name="DejaVu Sans" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="passiveButton" layoutX="504.0" layoutY="45.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0" style="-fx-background-color: #00000000;" text="Passive Components" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font name="DejaVu Sans" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="sensorsButton" layoutX="591.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Sensors" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font name="DejaVu Sans" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="displayButton" layoutX="678.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Display" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font name="DejaVu Sans" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="wiringButton" layoutX="783.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: #00000000;" text="Wiring" textFill="WHITE">
-                                       <font>
-                                          <Font name="DejaVu Sans" size="16.0" />
-                                       </font>
-                                    </Button>
+                                    <HBox fx:id="itemFilterHbox" alignment="CENTER" prefHeight="50.0" prefWidth="1315.0" spacing="10.0" style="-fx-background-color: #122b76;">
+                                       <children>
+                                          <Button fx:id="toolButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Tools/ Equipment" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="DejaVu Sans" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="microcontrollerButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Microcontrollers" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font name="DejaVu Sans" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="passiveButton" layoutX="504.0" layoutY="45.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0" style="-fx-background-color: #00000000;" text="Passive Components" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="DejaVu Sans" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="sensorsButton" layoutX="591.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Sensors" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font name="DejaVu Sans" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="displayButton" layoutX="678.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Display" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font name="DejaVu Sans" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="wiringButton" layoutX="783.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: #00000000;" text="Wiring" textFill="WHITE">
+                                             <font>
+                                                <Font name="DejaVu Sans" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <GridPane fx:id="headerGridPane" alignment="CENTER" prefHeight="50.0" prefWidth="1315.0" style="-fx-background-color: #7b58aa;" visible="false">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="124.0" text="CART" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                                             <font>
+                                                <Font name="Noto Sans Regular" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Back" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets left="20.0" right="20.0" />
+                                       </padding>
+                                    </GridPane>
                                  </children>
-                              </HBox>
+                              </AnchorPane>
                               <HBox alignment="CENTER" prefHeight="600.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <ScrollPane fx:id="scrollPane" prefHeight="600.0" prefWidth="1315.0" HBox.hgrow="ALWAYS">
+                                    <ScrollPane fx:id="scrollPane" prefHeight="608.0" prefWidth="1315.0" HBox.hgrow="ALWAYS">
                                        <content>
                                           <GridPane fx:id="gridPane" prefHeight="0.0" prefWidth="0.0">
                                             <rowConstraints>
