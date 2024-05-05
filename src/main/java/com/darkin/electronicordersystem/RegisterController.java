@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
     private final UserDAO userConn = new UserDAO();
+    private final String PASSWORD_WARNING = "Password needs minimum of 8 combinations of upper-lower and numbers";
 
     @FXML
     private ImageView profileImageView;
@@ -39,25 +40,23 @@ public class RegisterController implements Initializable {
     private PasswordField setPasswordField, confirmPasswordField;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {// setting the branding image to the FXML layout
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // setting the branding image to the FXML layout
         File proFile = new File("assets/icons/line-md--account-white.png");
         Image profileImage =  new Image(proFile.toURI().toString());//do no what is this for.
         profileImageView.setImage(profileImage);
 
         emailTextField.textProperty().addListener(event -> {
-            System.out.println("Changed");
-            if(!emailTextField.getText().matches("(?:[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")){
-                registrationMessageLabel.setText("Please input an email");}else{
-                registrationMessageLabel.setText("");
+            if(emailChecker()){
+                registerButton.setDisable(true);
+            }else{
+                registerButton.setDisable(false);
             }
         });
 
         setPasswordField.textProperty().addListener(event -> {
-            System.out.println("Password updated");
-            if (!setPasswordField.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\\S{8,}$")
-            ) {
-                registrationMessageLabel.setText("Input password that has 8 characters mixed of Upper-Lowercase and Numbers");
-
+            if (!setPasswordField.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\\S{8,}$")) {
+                registrationMessageLabel.setText(PASSWORD_WARNING);
             }else{
                 passwordMessageLabel.setText("");
                 registrationMessageLabel.setText("");
@@ -71,23 +70,25 @@ public class RegisterController implements Initializable {
             registrationMessageLabel.setText("Missing input fields");
         }else {
             registrationMessageLabel.setText("");
+            if(!emailChecker()){
+                if(setPasswordField.getText().equals(confirmPasswordField.getText())) {
+                    passwordMessageLabel.setText("Passwords matched!");
+                    try {
+                        userConn.registerUser(getQuery());
+                        registrationMessageLabel.setText("Registered successfully");
 
-            if(setPasswordField.getText().equals(confirmPasswordField.getText())) {
-                passwordMessageLabel.setText("Passwords matched!");
-                try {
-                    userConn.registerUser(getQuery());
-                    registrationMessageLabel.setText("Registered successfully");
-
-                } catch (SQLException e) {
-                    registrationMessageLabel.setText("Something's wrong");
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                    } catch (SQLException e) {
+                        registrationMessageLabel.setText("Something's wrong");
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    loginAccountForm();
+                    closeForm();
+                }else{
+                    String PASSWORD_NOT_MATCH = "Password does not match";
+                    passwordMessageLabel.setText(PASSWORD_NOT_MATCH);
                 }
-                loginAccountForm();
-                closeForm();
-            }else{
-                passwordMessageLabel.setText("Password does not match");
             }
 
         }
@@ -130,5 +131,17 @@ public class RegisterController implements Initializable {
         user.setEmail(emailTextField.getText());
 
         return user;
+    }
+    private boolean emailChecker(){
+        boolean isNotMatch =  ((!emailTextField.getText().matches("(?:[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")) ? true : false );
+
+        if(isNotMatch){
+            registrationMessageLabel.setText("Please input an email");
+        }else{
+            registrationMessageLabel.setText("");
+        }
+
+        return isNotMatch;
+
     }
 }

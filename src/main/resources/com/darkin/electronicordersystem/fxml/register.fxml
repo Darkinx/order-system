@@ -25,23 +25,26 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="85.0" layoutY="111.0" prefHeight="16.0" prefWidth="68.0" text="Firstname" />
-      <TextField fx:id="firstnameTextField" layoutX="85.0" layoutY="134.0" prefHeight="24.0" prefWidth="350.0" promptText="Firstname" />
+      <Label layoutX="85.0" layoutY="124.0" prefHeight="16.0" prefWidth="68.0" text="Firstname" />
+      <TextField fx:id="firstnameTextField" layoutX="85.0" layoutY="147.0" prefHeight="24.0" prefWidth="350.0" promptText="Firstname" />
       <Label layoutX="85.0" layoutY="177.0" prefHeight="16.0" prefWidth="68.0" text="Lastname" />
       <TextField fx:id="lastnameTextField" layoutX="85.0" layoutY="200.0" prefHeight="24.0" prefWidth="350.0" promptText="Lastname" />
       <Label layoutX="86.0" layoutY="242.0" prefHeight="16.0" prefWidth="68.0" text="Username" />
-      <TextField fx:id="usernameTextField" layoutX="85.0" layoutY="268.0" prefHeight="24.0" prefWidth="350.0" promptText="Username" />
+      <TextField fx:id="usernameTextField" layoutX="86.0" layoutY="269.0" prefHeight="24.0" prefWidth="350.0" promptText="Username" />
       <Label layoutX="85.0" layoutY="302.0" prefHeight="16.0" prefWidth="68.0" text="E-mail" />
       <TextField fx:id="emailTextField" layoutX="85.0" layoutY="325.0" prefHeight="24.0" prefWidth="350.0" promptText="E-mail address" />
       <Label layoutX="85.0" layoutY="364.0" prefHeight="16.0" prefWidth="68.0" text="Address" />
       <TextField fx:id="addressTextField" layoutX="85.0" layoutY="387.0" prefHeight="24.0" prefWidth="350.0" promptText="Home address" />
       <Label layoutX="86.0" layoutY="424.0" prefHeight="16.0" prefWidth="68.0" text="Password" />
-      <PasswordField fx:id="setPasswordField" layoutX="86.0" layoutY="447.0" prefHeight="24.0" prefWidth="350.0" promptText="Password" />
+      <PasswordField fx:id="setPasswordField" layoutX="85.0" layoutY="453.0" prefHeight="24.0" prefWidth="350.0" promptText="Password" />
       <Label layoutX="86.0" layoutY="491.0" prefHeight="16.0" prefWidth="122.0" text="Confirm Password" />
       <PasswordField fx:id="confirmPasswordField" layoutX="86.0" layoutY="514.0" prefHeight="24.0" prefWidth="350.0" promptText="Confirm Password" />
       <Button fx:id="registerButton" layoutX="160.0" layoutY="559.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #081334;" text="Register" textFill="WHITE" />
       <Button fx:id="closeButton" layoutX="160.0" layoutY="598.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #76122b;" text="Close" textFill="WHITE" />
-      <Label fx:id="registrationMessageLabel" alignment="CENTER" layoutX="151.0" layoutY="91.0" prefHeight="16.0" prefWidth="219.0" />
-      <Label fx:id="passwordMessageLabel" alignment="CENTER" layoutX="217.0" layoutY="491.0" prefHeight="16.0" prefWidth="219.0" textFill="RED" />
+      <Label fx:id="registrationMessageLabel" alignment="CENTER" layoutX="33.0" layoutY="88.0" prefHeight="30.0" prefWidth="454.0" wrapText="true">
+         <font>
+            <Font size="12.0" />
+         </font></Label>
+      <Label fx:id="passwordMessageLabel" alignment="CENTER" layoutX="162.0" layoutY="424.0" prefHeight="16.0" prefWidth="273.0" textFill="RED" />
    </children>
 </AnchorPane>
