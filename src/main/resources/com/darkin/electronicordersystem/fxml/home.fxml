@@ -17,142 +17,134 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.darkin.electronicordersystem.HomeController">
-   <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <VBox prefHeight="750.0" prefWidth="1315.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.darkin.electronicordersystem.HomeController">
+   <center>
+      <VBox prefHeight="750.0" prefWidth="1315.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="1315.0" spacing="10.0" style="-fx-background-color: #122b76;">
                <children>
-                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="1315.0" spacing="10.0" style="-fx-background-color: #122b76;">
+                  <Button fx:id="mainMenuButton" mnemonicParsing="false" onAction="#mainMenuAction">
+                     <graphic>
+                        <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="200.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../assets/logo/main-logo.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Pane prefHeight="58.0" prefWidth="449.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="cartButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#cartButtonAction" prefHeight="50.0" prefWidth="40.0" style="-fx-background-color: #00000000;">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="40.0" preserveRatio="true">
+                           <Image url="@../../../../../../../assets/icons/iconoir--cart-white.png" />
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="userIconButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#userIconButtonAction" style="-fx-background-color: #00000000;">
+                     <graphic>
+                        <ImageView fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../assets/icons/codicon--account-white.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label fx:id="userNameLabel" alignment="CENTER" prefHeight="20.0" prefWidth="138.0" text="John Razonado" textFill="WHITE" HBox.hgrow="SOMETIMES">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </HBox>
+            <AnchorPane prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <HBox fx:id="itemFilterHbox" alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="1315.0" spacing="10.0" style="-fx-background-color: #122b76;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Button fx:id="mainMenuButton" mnemonicParsing="false" onAction="#mainMenuAction">
-                           <graphic>
-                              <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="200.0" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../assets/logo/main-logo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Pane prefHeight="18.0" prefWidth="787.0" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="cartButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#cartButtonAction" prefHeight="50.0" prefWidth="40.0" style="-fx-background-color: #00000000;">
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="40.0" preserveRatio="true">
-                                 <Image url="@../../../../../../../assets/icons/iconoir--cart-white.png" />
-                              </ImageView>
-                           </graphic>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="userIconButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: #00000000;">
-                           <graphic>
-                              <ImageView fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../assets/icons/codicon--account-white.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label fx:id="userNameLabel" alignment="CENTER" prefHeight="20.0" prefWidth="138.0" text="John Razonado" textFill="WHITE">
+                        <Button fx:id="toolButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Tools/ Equipment" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                            <font>
-                              <Font size="16.0" />
+                              <Font name="DejaVu Sans" size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="microcontrollerButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Microcontrollers" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="DejaVu Sans" size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="passiveButton" layoutX="504.0" layoutY="45.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0" style="-fx-background-color: #00000000;" text="Passive Components" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="DejaVu Sans" size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="sensorsButton" layoutX="591.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Sensors" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="DejaVu Sans" size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="displayButton" layoutX="678.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Display" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="DejaVu Sans" size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="wiringButton" layoutX="783.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: #00000000;" text="Wiring" textFill="WHITE">
+                           <font>
+                              <Font name="DejaVu Sans" size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <GridPane fx:id="headerGridPane" alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="1315.0" style="-fx-background-color: #7b58aa;" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label fx:id="headerLabel" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="29.0" prefWidth="589.0" text="CART" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                           <font>
+                              <Font name="Noto Sans Regular" size="20.0" />
                            </font>
                         </Label>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonAction" style="-fx-background-color: #00000000;" text="Back" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Button>
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                      <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets left="20.0" right="20.0" />
                      </padding>
-                  </HBox>
-                  <StackPane fx:id="stackPane" prefHeight="650.0" prefWidth="1315.0">
-                     <children>
-                        <VBox fx:id="productMenuVBox" prefHeight="650.0" prefWidth="1315.0">
-                           <children>
-                              <AnchorPane prefHeight="50.0" prefWidth="200.0">
-                                 <children>
-                                    <HBox fx:id="itemFilterHbox" alignment="CENTER" prefHeight="50.0" prefWidth="1315.0" spacing="10.0" style="-fx-background-color: #122b76;">
-                                       <children>
-                                          <Button fx:id="toolButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Tools/ Equipment" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                             <font>
-                                                <Font name="DejaVu Sans" size="16.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="microcontrollerButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Microcontrollers" textAlignment="CENTER" textFill="WHITE">
-                                             <font>
-                                                <Font name="DejaVu Sans" size="16.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="passiveButton" layoutX="504.0" layoutY="45.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0" style="-fx-background-color: #00000000;" text="Passive Components" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                             <font>
-                                                <Font name="DejaVu Sans" size="16.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="sensorsButton" layoutX="591.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Sensors" textAlignment="CENTER" textFill="WHITE">
-                                             <font>
-                                                <Font name="DejaVu Sans" size="16.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="displayButton" layoutX="678.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Display" textAlignment="CENTER" textFill="WHITE">
-                                             <font>
-                                                <Font name="DejaVu Sans" size="16.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="wiringButton" layoutX="783.0" layoutY="45.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: #00000000;" text="Wiring" textFill="WHITE">
-                                             <font>
-                                                <Font name="DejaVu Sans" size="16.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                    <GridPane fx:id="headerGridPane" alignment="CENTER" prefHeight="50.0" prefWidth="1315.0" style="-fx-background-color: #7b58aa;" visible="false">
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
-                                       <children>
-                                          <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="124.0" text="CART" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                                             <font>
-                                                <Font name="Noto Sans Regular" size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: #00000000;" text="Back" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="16.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </GridPane>
-                                 </children>
-                              </AnchorPane>
-                              <HBox alignment="CENTER" prefHeight="600.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <ScrollPane fx:id="scrollPane" prefHeight="608.0" prefWidth="1315.0" HBox.hgrow="ALWAYS">
-                                       <content>
-                                          <GridPane fx:id="gridPane" prefHeight="0.0" prefWidth="0.0">
-                                            <rowConstraints>
-                                              <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                          </GridPane>
-                                       </content>
-                                    </ScrollPane>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </StackPane>
+                  </GridPane>
                </children>
-            </VBox>
-         </center>
-      </BorderPane>
-   </children>
-</AnchorPane>
+            </AnchorPane>
+            <StackPane fx:id="stackPane" minHeight="0.0" prefHeight="650.0" prefWidth="1315.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox fx:id="productMenuVBox">
+                     <children>
+                        <ScrollPane fx:id="scrollPane" prefHeight="608.0" prefWidth="1315.0">
+                           <content>
+                              <GridPane fx:id="gridPane" prefHeight="0.0" prefWidth="0.0">
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

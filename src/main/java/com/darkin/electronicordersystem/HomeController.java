@@ -7,11 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import com.darkin.electronicordersystem.models.Product;
 import com.darkin.electronicordersystem.models.ProductDAO;
@@ -31,13 +29,15 @@ public class HomeController implements Initializable {
     private MyListener myListener;
     private MyListener cartListener;
     private AnchorPane productViewAnchorPane;
-    private AnchorPane cartMenuAnchorPane;
+    private VBox cartMenuVbox;
     private AnchorPane profileAnchorPane; //Still not decided
+    private AnchorPane orderHistoryAnchorPane;
     private ObservableList<AnchorPane> anchorList;
 
     //Controllers setup
     ProductViewController productViewController;
     CartMenuController cartMenuController;
+    OrderHistoryController orderHistoryController;
 
     @FXML
     private ImageView logoImageView;
@@ -75,6 +75,8 @@ public class HomeController implements Initializable {
     private  GridPane headerGridPane;
     @FXML
     private  Button backButton;
+    @FXML
+    private  Label headerLabel;
 
 
 
@@ -86,13 +88,7 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        TODO: Add all the needed first run here
 
-        try {
-            products = productDAO.getAllProducts();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        products = getAllProducts();
 
         if(products.size() > 0){
             myListener = new MyListener() {
@@ -134,12 +130,15 @@ public class HomeController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             FXMLLoader fxmlLoader2 = new FXMLLoader();
+            FXMLLoader fxmlLoader3 = new FXMLLoader(getClass().getResource("fxml/orderHistory.fxml"));
             fxmlLoader.setLocation(getClass().getResource("fxml/cartMenu.fxml"));
-            cartMenuAnchorPane = fxmlLoader.load();
+            cartMenuVbox = fxmlLoader.load();
             cartMenuController = fxmlLoader.getController();
             fxmlLoader2.setLocation(getClass().getResource("fxml/productView.fxml"));
             productViewAnchorPane = fxmlLoader2.load();
             productViewController = fxmlLoader2.getController();
+            orderHistoryAnchorPane = fxmlLoader3.load();
+            orderHistoryController = fxmlLoader3.getController();
         }catch (IOException e){
             System.err.println("Error occurred: " + e);
             e.printStackTrace();
@@ -148,7 +147,8 @@ public class HomeController implements Initializable {
         //Setting up StackPane
         stackPane.getChildren().clear();
 //        stackPane = new StackPane();
-        stackPane.getChildren().add(cartMenuAnchorPane);
+        stackPane.getChildren().add(orderHistoryAnchorPane);
+        stackPane.getChildren().add(cartMenuVbox);
         stackPane.getChildren().add(productViewAnchorPane);
         stackPane.getChildren().add(productMenuVBox);
 
@@ -157,16 +157,44 @@ public class HomeController implements Initializable {
 
     }
     public void mainMenuAction(ActionEvent event){
+        if(!itemFilterHbox.isVisible()) {
+            itemFilterHbox.setVisible(true);
+            headerGridPane.setVisible(false);
+            productMenuVBox.toFront();
+        }
         //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
-        productMenuVBox.toFront();
-        setupGridPane(); //resolved first the problem of the lag due to query, use threads
+        //TODO: Need hashCode checking to check if everything is matched, if not, then re-render
+        if (products.containsAll(getAllProducts())){
+            Alert alert = new Alert(Alert.AlertType.NONE, "welp, it is different" , ButtonType.OK);
+            alert.showAndWait();
+            setupGridPane(); //resolved first the problem of the lag due to query, use threads
+        }
 
     }
     public void cartButtonAction(ActionEvent event){
-        cartMenuAnchorPane.toFront();
+        if(!headerGridPane.isVisible()){
+            headerGridPane.setVisible(true);
+            itemFilterHbox.setVisible(false);
+        }
+        headerLabel.setText("Cart");
+        cartMenuVbox.toFront();
         cartMenuController.setData(user.getId());
         System.out.println("cart button clicked");
 
+    }
+    public void userIconButtonAction(ActionEvent event){
+        if(!headerGridPane.isVisible()){
+            headerGridPane.setVisible(true);
+            itemFilterHbox.setVisible(false);
+        }
+        headerLabel.setText("Order History");
+        orderHistoryController.setData(user.getId());
+        orderHistoryController.Initialize();
+        orderHistoryAnchorPane.toFront();
+    }
+    public void backButtonAction(ActionEvent event){
+        System.out.println("Children: " + stackPane.getChildren().toString());
+//        productViewAnchorPane.toBack();
     }
     public void setUser(User user){
         this.user = user;
@@ -174,6 +202,11 @@ public class HomeController implements Initializable {
     }
     private void selectProduct(Product product){
         productViewController.setData(product, cartListener);
+        if(!headerGridPane.isVisible()) {
+            headerGridPane.setVisible(true);
+            itemFilterHbox.setVisible(false);
+            headerLabel.setText(product.getCategory());
+        }
         productViewAnchorPane.toFront();
     }
     private void setupGridPane(){
@@ -216,7 +249,17 @@ public class HomeController implements Initializable {
     private void addToCart(Product product){
         System.out.println("addToCart button pressed");
         try {
-            productDAO.addCart(user.getId(), product.getId(), product.getStock());
+            productDAO.addCart(user.getId(), product.getId(), product.getQuantity());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ObservableList<Product> getAllProducts(){
+        try {
+            return productDAO.getAllProducts();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
