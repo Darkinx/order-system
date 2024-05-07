@@ -24,9 +24,14 @@ public class Order {
         return order_date;
     }
 
+    //This won't work for some reason
+//    public void setOrder_date(String dateTime) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:MM:SS");
+//        LocalDateTime order_date = LocalDateTime.parse(dateTime, formatter);
+//        this.order_date = order_date;
+//    }
     public void setOrder_date(String dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD HH:MM:SS");
-        LocalDateTime order_date = LocalDateTime.parse(dateTime, formatter);
+        LocalDateTime order_date = LocalDateTime.parse(dateTime);
         this.order_date = order_date;
     }
 

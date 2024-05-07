@@ -4,8 +4,9 @@ public class OrderItem {
     private int id;
     private int quantity;
     private double price;
-    private int product_id;
-    private int order_id;
+    private String productName;
+    private String imagePath;
+    private int orderId;
 
     public int getId() {
         return id;
@@ -31,19 +32,27 @@ public class OrderItem {
         this.price = price;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
