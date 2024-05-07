@@ -9,8 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
  * @see: https://stackoverflow.com/questions/37810745/tableview-and-spinner-in-javafx
  */
 public class Item {
-
-
     private final IntegerProperty itemCount = new SimpleIntegerProperty();
     private final IntegerProperty itemMaxCount = new SimpleIntegerProperty();
 
