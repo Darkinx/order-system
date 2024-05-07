@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,7 +31,7 @@ public class HomeController implements Initializable {
     private AnchorPane productViewAnchorPane;
     private VBox cartMenuVbox;
     private AnchorPane profileAnchorPane; //Still not decided
-    private AnchorPane orderHistoryAnchorPane;
+    private ScrollPane orderHistoryScrollPane;
     private ObservableList<AnchorPane> anchorList;
 
     //Controllers setup
@@ -62,13 +62,11 @@ public class HomeController implements Initializable {
     @FXML
     private Button wiringButton;
     @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private GridPane gridPane;
+    private TilePane productPane;
     @FXML
     private StackPane stackPane;
     @FXML
-    private VBox productMenuVBox;
+    private ScrollPane productScrollPane;
     @FXML
     private HBox itemFilterHbox;
     @FXML
@@ -137,7 +135,7 @@ public class HomeController implements Initializable {
             fxmlLoader2.setLocation(getClass().getResource("fxml/productView.fxml"));
             productViewAnchorPane = fxmlLoader2.load();
             productViewController = fxmlLoader2.getController();
-            orderHistoryAnchorPane = fxmlLoader3.load();
+            orderHistoryScrollPane = fxmlLoader3.load();
             orderHistoryController = fxmlLoader3.getController();
         }catch (IOException e){
             System.err.println("Error occurred: " + e);
@@ -146,28 +144,30 @@ public class HomeController implements Initializable {
 
         //Setting up StackPane
         stackPane.getChildren().clear();
-//        stackPane = new StackPane();
-        stackPane.getChildren().add(orderHistoryAnchorPane);
+        stackPane.getChildren().add(orderHistoryScrollPane);
         stackPane.getChildren().add(cartMenuVbox);
         stackPane.getChildren().add(productViewAnchorPane);
-        stackPane.getChildren().add(productMenuVBox);
+        stackPane.getChildren().add(productScrollPane);
 
-        //Setup the gridPane
-        setupGridPane();
+        stackPane.alignmentProperty().set(Pos.CENTER);
+        StackPane.setAlignment(productPane, Pos.CENTER);
+
+        //Setup the ProductPane
+        setupProductPane();
 
     }
     public void mainMenuAction(ActionEvent event){
         if(!itemFilterHbox.isVisible()) {
             itemFilterHbox.setVisible(true);
             headerGridPane.setVisible(false);
-            productMenuVBox.toFront();
+            productScrollPane.toFront();
         }
         //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
         //TODO: Need hashCode checking to check if everything is matched, if not, then re-render
         if (products.containsAll(getAllProducts())){
             Alert alert = new Alert(Alert.AlertType.NONE, "welp, it is different" , ButtonType.OK);
             alert.showAndWait();
-            setupGridPane(); //resolved first the problem of the lag due to query, use threads
+            setupProductPane(); //resolved first the problem of the lag due to query, use threads
         }
 
     }
@@ -190,7 +190,7 @@ public class HomeController implements Initializable {
         headerLabel.setText("Order History");
         orderHistoryController.setData(user.getId());
         orderHistoryController.Initialize();
-        orderHistoryAnchorPane.toFront();
+        orderHistoryScrollPane.toFront();
     }
     public void backButtonAction(ActionEvent event){
         System.out.println("Children: " + stackPane.getChildren().toString());
@@ -209,9 +209,10 @@ public class HomeController implements Initializable {
         }
         productViewAnchorPane.toFront();
     }
-    private void setupGridPane(){
-        int col = 0, row =1;
-        gridPane.getChildren().clear();
+    private void setupProductPane(){
+        productPane.getChildren().clear();
+        productPane.setAlignment(Pos.CENTER);
+        productPane.setTileAlignment(Pos.CENTER);
         try{
             for (int i = 0; i < products.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -221,23 +222,16 @@ public class HomeController implements Initializable {
                 ProductController productController = fxmlLoader.getController();
                 productController.setData(products.get(i), myListener);
 
-                if (col == 4) {
-                    col = 0;
-                    row++;
-                }
-
-                gridPane.add(anchorPane, col++, row); //(child,column,row)
+                
+                productPane.getChildren().add(anchorPane); //(child,column,row)
                 //set gridPane width
-                gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-                gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                gridPane.setMaxWidth(Region.USE_PREF_SIZE);
+                productPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                productPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                productPane.setMaxWidth(Region.USE_PREF_SIZE);
 
                 //set gridPane height
-                gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-                gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                gridPane.setMaxHeight(Region.USE_PREF_SIZE);
-
-                GridPane.setMargin(anchorPane, new Insets(10));
+                productPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                productPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
 
             }
 

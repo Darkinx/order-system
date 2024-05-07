@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="600.0" prefWidth="1315.0" style="-fx-background-color: #ffffff;" stylesheets="@../css/cartMenu.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.darkin.electronicordersystem.CartMenuController">
+<VBox prefHeight="600.0" prefWidth="1315.0" style="-fx-background-color: #ffffff;" stylesheets="@../css/cartMenu.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.darkin.electronicordersystem.CartMenuController">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="0.0" prefHeight="530.0" prefWidth="1315.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="530.0" prefWidth="1315.0">
          <content>
             <VBox maxHeight="-Infinity" minHeight="30.0" prefHeight="530.0">
                <children>
