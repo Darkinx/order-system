@@ -28,8 +28,6 @@ public class CartMenuController {
     private static ObservableList<CartItem> cartItems;
 
     @FXML
-    private Button backButton;
-    @FXML
     private TableView<CartItem> cartTable;
     @FXML
     private Button checkOutButton;
@@ -40,9 +38,9 @@ public class CartMenuController {
     @FXML
     private TableColumn<CartItem, Double> priceCol;
     @FXML
-    private TableColumn<CartItem, Item> quantityColumn;
+    private TableColumn<CartItem, Item> quantityCol;
     @FXML
-    private TableColumn<CartItem, String> imageColumn;
+    private TableColumn<CartItem, String> imageCol;
     @FXML
     private TableColumn<CartItem, Double> totalUnitCol;
     @FXML
@@ -112,10 +110,10 @@ public class CartMenuController {
         itemNameCol.setCellValueFactory(cellData -> cellData.getValue().productNameProperty());
         priceCol.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());//the asObject part is probably needed due to being an integer
         totalUnitCol.setCellValueFactory(cellData -> cellData.getValue().totalPriceProperty().asObject());
-        imageColumn.setCellValueFactory(cellData -> cellData.getValue().image_pathProperty());
-        quantityColumn.setCellValueFactory(cellData -> Bindings.createObjectBinding(() -> cellData.getValue().getQuantity()));
+        imageCol.setCellValueFactory(cellData -> cellData.getValue().image_pathProperty());
+        quantityCol.setCellValueFactory(cellData -> Bindings.createObjectBinding(() -> cellData.getValue().getQuantity()));
 
-        imageColumn.setCellFactory(col -> {
+        imageCol.setCellFactory(col -> {
             TableCell<CartItem, String> cell = new TableCell<>();
 
             cell.itemProperty().addListener((observable, old, newVal) -> {
@@ -128,7 +126,7 @@ public class CartMenuController {
             return cell;
         });
 
-        quantityColumn.setCellFactory(new Callback<TableColumn<CartItem, Item>, TableCell<CartItem, Item>>() {
+        quantityCol.setCellFactory(new Callback<TableColumn<CartItem, Item>, TableCell<CartItem, Item>>() {
             @Override
             public TableCell<CartItem, Item> call(TableColumn<CartItem, Item> param) {
                 TableCell<CartItem, Item> cell = new TableCell<CartItem, Item>() {
@@ -149,32 +147,35 @@ public class CartMenuController {
                             }else{
                                 valueFactory.setValue(newValue.intValue());
                             }
-                            int quantityNow = valueFactory.getValue();
-                            CartItem item = getTableView().getItems().get(getIndex());
-                            try {
-                                cartDAO.updateQuantity(quantityNow, item.getId());
-                                total -= item.getTotalPrice();
-                                item.setQuantity(new Item(quantityNow, valueFactory.getMax()));
-                                //TODO have a way to set TotalPrice by having a EventHandler
-                                total += item.getTotalPrice();
-                                totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
+                        };
+//                        count.valueProperty().addListener(valueChangeListener);
+                        count.valueProperty().addListener((obs, oldValue, newValue) -> {
+                            if (getItem() != null) {
+                                // write new value to table item
+                                if(newValue.intValue() <= 1){
+                                    getItem().setItemCount(1);
+                                }else{
+                                    getItem().setItemCount(newValue.intValue());
+                                }
+                                int quantityNow = getItem().getItemCount();
+                                System.out.println("New value: " + newValue);
+                                CartItem item = getTableView().getItems().get(getIndex());
+                                try {
+                                    cartDAO.updateQuantity(quantityNow, item.getId());
+                                    total -= item.getTotalPrice();
+                                    item.setQuantity(new Item(quantityNow, valueFactory.getMax()));
+                                    //TODO have a way to set TotalPrice by having a EventHandler
+                                    //TODO STILL DON'T know how to progress this.
+                                    total += item.getTotalPrice();
+                                    totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 } catch (ClassNotFoundException e) {
                                     throw new RuntimeException(e);
-                            }
+                                }
 
-                        };
-                        count.valueProperty().addListener(valueChangeListener);
-//                        count.valueProperty().addListener((obs, oldValue, newValue) -> {
-//                            if (getItem() != null) {
-//                                // write new value to table item
-//                                    getItem().setItemCount(newValue);
-//
-//                                System.out.println("New value: " + newValue);
-//
-//                            }
-//                        });
+                            }
+                        });
                     }
 
 
@@ -206,8 +207,6 @@ public class CartMenuController {
 
         File trashFile = new File("assets/icons/bi--trash.png");
         Image trashImage = new Image(trashFile.toURI().toString());
-
-
         removeCol.setCellFactory(ActionButtonTableCell.<CartItem, Void>forTableColumn(trashImage, c -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item?", ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = confirm.showAndWait();
