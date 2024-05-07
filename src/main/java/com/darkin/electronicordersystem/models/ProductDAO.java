@@ -34,7 +34,6 @@ public class ProductDAO {
         try {
             CachedRowSet tmpRowSet = dbUtil.selectQuery(stmt);
             ObservableList<Product> cartList = getCartList(tmpRowSet);
-            System.out.println(cartList.toString());
             return cartList;
         }catch (SQLException e){
             System.err.println("SQL Select Operation failed: " + e);

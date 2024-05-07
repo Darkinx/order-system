@@ -76,7 +76,7 @@ public class ProductViewController implements Initializable {
 
     }
     public void addToCartAction(ActionEvent event){
-        product.setStock(quantitySpinner.getValue());
+        product.setQuantity(quantitySpinner.getValue().intValue());
         cartListener.onClickListener(product);
     }
 }

@@ -77,3 +77,6 @@ public class Product{
         this.name = name;
     }
 }
+
+//TODO: Change implementation of HashCode and Equals. Due to comparison not coming through nicely
+// @see: https://stackoverflow.com/questions/68385301/contains-with-observablelist-returns-always-false
