@@ -109,7 +109,12 @@ public class CartMenuController {
     private void initCols(){
         itemNameCol.setCellValueFactory(cellData -> cellData.getValue().productNameProperty());
         priceCol.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());//the asObject part is probably needed due to being an integer
-        totalUnitCol.setCellValueFactory(cellData -> cellData.getValue().totalPriceProperty().asObject());
+        totalUnitCol.setCellValueFactory(cellData -> {
+            cellData.getValue().totalPriceProperty().bind(
+                    cellData.getValue().getQuantity().itemCountProperty().
+                            multiply(cellData.getValue().getPrice()));
+            return cellData.getValue().totalPriceProperty().asObject();
+        });
         imageCol.setCellValueFactory(cellData -> cellData.getValue().image_pathProperty());
         quantityCol.setCellValueFactory(cellData -> Bindings.createObjectBinding(() -> cellData.getValue().getQuantity()));
 
@@ -163,9 +168,8 @@ public class CartMenuController {
                                 try {
                                     cartDAO.updateQuantity(quantityNow, item.getId());
                                     total -= item.getTotalPrice();
-                                    item.setQuantity(new Item(quantityNow, valueFactory.getMax()));
-                                    //TODO have a way to set TotalPrice by having a EventHandler
-                                    //TODO STILL DON'T know how to progress this.
+//                                    item.setQuantity(new Item(quantityNow, valueFactory.getMax()));
+                                    //TODO Make the quantity spinner view not make to zero
                                     total += item.getTotalPrice();
                                     totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
                                 } catch (SQLException e) {
