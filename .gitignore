@@ -12,6 +12,11 @@ target/
 *.iml
 *.ipr
 
+### IntelliJ Plugins ###
+.metadata/
+#.metadata/.plugins/org.eclipse.*/*
+#.metadata/.mylyn/
+
 ### Eclipse ###
 .apt_generated
 .classpath
