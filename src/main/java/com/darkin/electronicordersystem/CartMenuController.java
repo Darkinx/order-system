@@ -164,6 +164,7 @@ public class CartMenuController {
                                 }
                                 int quantityNow = getItem().getItemCount();
                                 System.out.println("New value: " + newValue);
+                                System.out.println("ItemCountValue: " + getItem().getItemCount());
                                 CartItem item = getTableView().getItems().get(getIndex());
                                 try {
                                     cartDAO.updateQuantity(quantityNow, item.getId());

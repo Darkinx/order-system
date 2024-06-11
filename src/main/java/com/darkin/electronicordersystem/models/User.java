@@ -1,5 +1,7 @@
 package com.darkin.electronicordersystem.models;
 
+import java.util.Objects;
+
 public class User {
     private int id;
     private String username;
@@ -63,5 +65,17 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(fname, user.fname) && Objects.equals(lname, user.lname) && Objects.equals(address, user.address) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, fname, lname, address, email);
     }
 }
