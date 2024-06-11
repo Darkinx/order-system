@@ -2,11 +2,7 @@ package com.darkin.electronicordersystem;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class DatabaseConnection {
     private static Connection databaseLink;
@@ -63,7 +59,6 @@ public class DatabaseConnection {
             crs = RowSetProvider.newFactory().createCachedRowSet();
             crs.populate(rs);
 
-
         }catch (SQLException e){
             System.err.println("Problem executing: "+ e);
             throw e;
@@ -72,7 +67,36 @@ public class DatabaseConnection {
                 //Close resultSet
                 rs.close();
             }
+            dbDisconnect();
+        }
+        return crs;
+    }
 
+    public CachedRowSet selectQuery(String stmtQuery, String[] stringCon) throws SQLException{
+        CachedRowSet crs = null;
+        ResultSet rs = null;
+        try {
+            databaseLink = getConnection();
+            PreparedStatement pst = databaseLink.prepareStatement(stmtQuery);
+            for (int i = 1; i <= stringCon.length; i++) {
+                pst.setString(i, stringCon[i-1]);
+            }
+
+            rs = pst.executeQuery();
+
+            //CachedRowSet Implementation
+            //In order to prevent "java.sql.SQLRecoverableException: Closed Connection: next" error
+            //We are using CachedRowSet
+            crs = RowSetProvider.newFactory().createCachedRowSet();
+            crs.populate(rs);
+        }catch (SQLException e){
+            System.err.println("Problem executing: "+ e);
+            throw e;
+        }finally {
+            if (rs != null) {
+                //Close resultSet
+                rs.close();
+            }
             dbDisconnect();
         }
         return crs;
@@ -85,6 +109,25 @@ public class DatabaseConnection {
             stmt = databaseLink.createStatement();
             stmt.executeUpdate(stmtUpdate);
 
+        }catch (SQLException e){
+            System.err.println("Problem occurred: " + e);
+            throw e;
+        }finally {
+            if(stmtUpdate != null ){
+                stmt.close();
+            }
+            dbDisconnect();
+        }
+    }
+    public void executeUpdate(String stmtUpdate, String[] stringCon) throws SQLException, ClassNotFoundException{
+        Statement stmt = null;
+        try{
+            databaseLink = getConnection();
+            PreparedStatement pst = databaseLink.prepareStatement(stmtUpdate);
+            for (int i = 1; i <= stringCon.length ; i++) {
+                pst.setString(i, stringCon[i-1]);
+            }
+            pst.executeUpdate();
         }catch (SQLException e){
             System.err.println("Problem occurred: " + e);
             throw e;
