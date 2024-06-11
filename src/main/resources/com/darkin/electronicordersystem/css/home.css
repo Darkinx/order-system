@@ -1,0 +1,12 @@
+.menu-button {
+    -fx-background-color: transparent;
+}
+
+.menu-button > .arrow-button {
+    -fx-padding: 0;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+/* https://stackoverflow.com/questions/30210117/remove-arrow-on-javafx-menubutton */

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -164,11 +165,13 @@ public class HomeController implements Initializable {
         }
         //TODO: Still buggy setup, needed a new thread for fetching data and rendering it
         //TODO: Need hashCode checking to check if everything is matched, if not, then re-render
-        if (products.containsAll(getAllProducts())){
-            Alert alert = new Alert(Alert.AlertType.NONE, "welp, it is different" , ButtonType.OK);
-            alert.showAndWait();
-            setupProductPane(); //resolved first the problem of the lag due to query, use threads
-        }
+//        if (products.containsAll(getAllProducts())){
+//            Alert alert = new Alert(Alert.AlertType.NONE, "welp, it is different" , ButtonType.OK);
+//            alert.showAndWait();
+//            setupProductPane(); //resolved first the problem of the lag due to query, use threads
+//        }
+        products = getAllProducts();
+        setupProductPane();
 
     }
     public void cartButtonAction(ActionEvent event){
@@ -182,6 +185,7 @@ public class HomeController implements Initializable {
         System.out.println("cart button clicked");
 
     }
+    //TODO: Need to add a dropdown menu
     public void userIconButtonAction(ActionEvent event){
         if(!headerGridPane.isVisible()){
             headerGridPane.setVisible(true);
@@ -192,9 +196,21 @@ public class HomeController implements Initializable {
         orderHistoryController.Initialize();
         orderHistoryScrollPane.toFront();
     }
+    //TODO: Added way to unfocus and disable the node
     public void backButtonAction(ActionEvent event){
-        System.out.println("Children: " + stackPane.getChildren().toString());
-//        productViewAnchorPane.toBack();
+        ObservableList<Node> childs = this.stackPane.getChildren();
+        if (childs.size() > 1) {
+            Node topNode = childs.get(childs.size()-1);
+            topNode.toBack();
+            if(childs.get(childs.size()-1) == productScrollPane){
+                if(!itemFilterHbox.isVisible()){
+                    itemFilterHbox.setVisible(true);
+                    headerGridPane.setVisible(false);
+                }else{
+                    headerGridPane.setVisible(false);
+                }
+            }
+        }
     }
     public void setUser(User user){
         this.user = user;
