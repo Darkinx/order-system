@@ -16,7 +16,7 @@ public class ProductDAO {
 
     //Product SQL statements
     public ObservableList<Product> getAllProducts() throws  SQLException, ClassNotFoundException{
-        String stmt = "SELECT * FROM `product` WHERE NOT `stock` = 0";
+        String stmt = "SELECT * FROM `product` WHERE NOT `stock` = 0 AND `isRemove` = 0;";
         try {
             CachedRowSet tmpRowSet = dbUtil.selectQuery(stmt);
             ObservableList<Product> productLst = getProductList(tmpRowSet);

@@ -8,12 +8,12 @@ import java.sql.SQLException;
 public class UserDAO {
     private DatabaseConnection dbUtil = new DatabaseConnection();
 
-    //TODO: Separate any interface to the Database
-    public boolean validateLogin(String username, String password){
-        String stmt = "SELECT count(1) FROM account WHERE username='" + username + "' AND password='" + password + "'";
 
+    public boolean validateLogin(String username, String password){
+        String stmt = "SELECT count(1) FROM account WHERE username=? AND password=?";
+        String[]  userString = {username, password};
         try{
-            CachedRowSet loginRs = dbUtil.selectQuery(stmt);
+            CachedRowSet loginRs = dbUtil.selectQuery(stmt, userString);
             while(loginRs.next()){
                 if(loginRs.getInt(1) == 1){
                     return true;
@@ -26,11 +26,14 @@ public class UserDAO {
         return false;
     }
     public void registerUser(User user) throws SQLException, ClassNotFoundException{
-        String stmt = "INSERT INTO account (username, password, fname, lname, address, email) VALUES ";
+        String stmt = "INSERT INTO account (username, password, fname, lname, address, email) VALUES" +
+                "(?, ?, ?, ?, ?, ?);";
 
-        stmt += String.format("('%s','%s','%s','%s','%s','%s')", user.getUsername(), user.getPassword(), user.getFname(), user.getLname(), user.getAddress(), user.getEmail());
+        String[] userString = {user.getUsername(), user.getPassword(), user.getFname(), user.getLname(), user.getAddress(), user.getEmail()};
+
+//        stmt += String.format("('%s','%s','%s','%s','%s','%s')", user.getUsername(), user.getPassword(), user.getFname(), user.getLname(), user.getAddress(), user.getEmail());
         try {
-            dbUtil.executeUpdate(stmt);
+            dbUtil.executeUpdate(stmt, userString);
         }catch (SQLException e){
             System.err.println("Error Occurred while inserting: " + e);
             throw e;
