@@ -143,6 +143,7 @@ public class CartMenuController {
 
                     {//TODO: Move to new Component setup
                         valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 0);
+                        valueFactory.setMin(1);
                         count = new Spinner<>(valueFactory);
                         count.setVisible(false);
                         setGraphic(count);
@@ -152,6 +153,8 @@ public class CartMenuController {
                             }else{
                                 valueFactory.setValue(newValue.intValue());
                             }
+                                System.out.println("New value at Listener: " + newValue);
+                                System.out.println("ItemCountValue at Listener: " + getItem().getItemCount());
                         };
 //                        count.valueProperty().addListener(valueChangeListener);
                         count.valueProperty().addListener((obs, oldValue, newValue) -> {
@@ -159,19 +162,17 @@ public class CartMenuController {
                                 // write new value to table item
                                 if(newValue.intValue() <= 1){
                                     getItem().setItemCount(1);
+                                    count.getValueFactory().setValue(1); //This is the solution
                                 }else{
                                     getItem().setItemCount(newValue.intValue());
+                                    count.getValueFactory().setValue(newValue);
                                 }
                                 int quantityNow = getItem().getItemCount();
-                                System.out.println("New value: " + newValue);
-                                System.out.println("ItemCountValue: " + getItem().getItemCount());
                                 CartItem item = getTableView().getItems().get(getIndex());
                                 try {
                                     cartDAO.updateQuantity(quantityNow, item.getId());
-                                    total -= item.getTotalPrice();
-//                                    item.setQuantity(new Item(quantityNow, valueFactory.getMax()));
+                                    CalculateTotal();
                                     //TODO Make the quantity spinner view not make to zero
-                                    total += item.getTotalPrice();
                                     totalCostLabel.setText(Main.CURRENCY + Double.toString(total));
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
@@ -191,19 +192,18 @@ public class CartMenuController {
                         if (getItem() != null) {
                             getItem().itemCountProperty().removeListener(valueChangeListener);
                         }
-
                         super.updateItem(item, empty);
 
                         // update according to new item
                         if (empty || item == null) {
                             count.setVisible(false);
                         } else {
+                            item.itemCountProperty().addListener(valueChangeListener);
                             valueFactory.maxProperty().bind(item.itemMaxCountProperty());
                             valueFactory.setValue(item.getItemCount());
-                            item.itemCountProperty().addListener(valueChangeListener);
                             count.setVisible(true);
                         }
-
+                        System.out.println("SpinnervalueAtUpdate: " + valueFactory.getValue());
                     }
                 };
                 return cell;
@@ -303,6 +303,12 @@ public class CartMenuController {
         productImageView.setPreserveRatio(true);
         graphicCon.getChildren().add(productImageView);
         return graphicCon;
+    }
+    private void CalculateTotal(){
+        total = 0d;
+        for (CartItem item : cartTable.getItems()) {
+            total += (totalUnitCol.getCellObservableValue(item).getValue());
+        }
     }
 
 
