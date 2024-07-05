@@ -1,0 +1,11 @@
+.main-pane{
+	-fx-background-color: #ffffff;
+}
+
+.text, .menu-item {
+	/*-fx-font: normal "DejaVu Sans" 20;*/
+	-fx-font-family: "DejaVu Sans";
+	-fx-font-size: 16px;
+}
+
+/*PUKINANG INA MO AL */
