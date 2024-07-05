@@ -4,10 +4,7 @@ import com.darkin.electronicordersystem.models.MyListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import com.darkin.electronicordersystem.models.Product;
@@ -76,6 +73,9 @@ public class ProductViewController implements Initializable {
 
     }
     public void addToCartAction(ActionEvent event){
+        //TODO: Need to center and be part of the system and now a new window the alert pop up
+        Alert alertOK = new Alert((Alert.AlertType.NONE), "Item \"" + product.getName() + "\" was added to cart.", ButtonType.OK );
+        alertOK.showAndWait();
         product.setQuantity(quantitySpinner.getValue().intValue());
         cartListener.onClickListener(product);
     }

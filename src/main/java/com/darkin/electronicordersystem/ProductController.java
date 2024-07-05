@@ -25,7 +25,9 @@ public class ProductController{
     private VBox vBox;
     @FXML
     private void pressed(MouseEvent mouseEvent){
-        myListener.onClickListener(product);
+        if(mouseEvent.isPrimaryButtonDown()){
+            myListener.onClickListener(product);
+        }
     }
 
     public void setData(Product product, MyListener listener){
