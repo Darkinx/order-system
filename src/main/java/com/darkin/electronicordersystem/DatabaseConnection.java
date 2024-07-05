@@ -119,8 +119,8 @@ public class DatabaseConnection {
             dbDisconnect();
         }
     }
+
     public void executeUpdate(String stmtUpdate, String[] stringCon) throws SQLException, ClassNotFoundException{
-        Statement stmt = null;
         try{
             databaseLink = getConnection();
             PreparedStatement pst = databaseLink.prepareStatement(stmtUpdate);
@@ -132,9 +132,6 @@ public class DatabaseConnection {
             System.err.println("Problem occurred: " + e);
             throw e;
         }finally {
-            if(stmtUpdate != null ){
-                stmt.close();
-            }
             dbDisconnect();
         }
     }
