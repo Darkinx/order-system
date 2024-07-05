@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,11 +17,14 @@ import com.darkin.electronicordersystem.models.Product;
 import com.darkin.electronicordersystem.models.ProductDAO;
 import com.darkin.electronicordersystem.models.User;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -34,11 +38,13 @@ public class HomeController implements Initializable {
     private AnchorPane profileAnchorPane; //Still not decided
     private ScrollPane orderHistoryScrollPane;
     private ObservableList<AnchorPane> anchorList;
+    private VBox accountUpdateVbox;
 
     //Controllers setup
-    ProductViewController productViewController;
-    CartMenuController cartMenuController;
-    OrderHistoryController orderHistoryController;
+    private ProductViewController productViewController;
+    private CartMenuController cartMenuController;
+    private OrderHistoryController orderHistoryController;
+    private AccountUpdateController accountUpdateController;
 
     @FXML
     private ImageView logoImageView;
@@ -46,8 +52,6 @@ public class HomeController implements Initializable {
     private Button mainMenuButton;
     @FXML
     private Button cartButton;
-    @FXML
-    private Button userIconButton;
     @FXML
     private Label userNameLabel;
     @FXML
@@ -76,7 +80,14 @@ public class HomeController implements Initializable {
     private  Button backButton;
     @FXML
     private  Label headerLabel;
-
+    @FXML
+    private MenuButton userIconButton;
+    @FXML
+    private MenuItem accountSettingMenuItem;
+    @FXML
+    private MenuItem orderHistoryMenuItem;
+    @FXML
+    private MenuItem logoutMenuItem;
 
 
 
@@ -118,11 +129,12 @@ public class HomeController implements Initializable {
         cartImageView.setFitWidth(50);
         cartButton.setGraphic(cartImageView);
 
+        //FIXME: Need to change for MenuButton
         File userIconFile = new File("assets/icons/codicon--account-white.png");
         Image userIconImage = new Image(userIconFile.toURI().toString());
         ImageView userIconImageView = new ImageView(userIconImage);
         userIconImageView.setPreserveRatio(true);
-        userIconImageView.setFitWidth(40);
+        userIconImageView.setFitWidth(50);
         userIconButton.setGraphic(userIconImageView);
 
         //Initialize different Panel from FXMLLOADER
@@ -130,6 +142,7 @@ public class HomeController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader();
             FXMLLoader fxmlLoader2 = new FXMLLoader();
             FXMLLoader fxmlLoader3 = new FXMLLoader(getClass().getResource("fxml/orderHistory.fxml"));
+            FXMLLoader fxmlLoader4 = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("fxml/cartMenu.fxml"));
             cartMenuVbox = fxmlLoader.load();
             cartMenuController = fxmlLoader.getController();
@@ -138,6 +151,10 @@ public class HomeController implements Initializable {
             productViewController = fxmlLoader2.getController();
             orderHistoryScrollPane = fxmlLoader3.load();
             orderHistoryController = fxmlLoader3.getController();
+            fxmlLoader4.setLocation(getClass().getResource("fxml/account-update-view.fxml"));
+            accountUpdateVbox = fxmlLoader4.load();
+            accountUpdateController = fxmlLoader4.getController();
+
         }catch (IOException e){
             System.err.println("Error occurred: " + e);
             e.printStackTrace();
@@ -145,6 +162,7 @@ public class HomeController implements Initializable {
 
         //Setting up StackPane
         stackPane.getChildren().clear();
+        stackPane.getChildren().add(accountUpdateVbox);
         stackPane.getChildren().add(orderHistoryScrollPane);
         stackPane.getChildren().add(cartMenuVbox);
         stackPane.getChildren().add(productViewAnchorPane);
@@ -186,7 +204,7 @@ public class HomeController implements Initializable {
 
     }
     //TODO: Need to add a dropdown menu
-    public void userIconButtonAction(ActionEvent event){
+    public void orderHistoryOnAction(ActionEvent event){
         if(!headerGridPane.isVisible()){
             headerGridPane.setVisible(true);
             itemFilterHbox.setVisible(false);
@@ -196,6 +214,40 @@ public class HomeController implements Initializable {
         orderHistoryController.Initialize();
         orderHistoryScrollPane.toFront();
     }
+
+    public void accountSettingOnAction (ActionEvent event){
+        if(!headerGridPane.isVisible()){
+            headerGridPane.setVisible(true);
+            itemFilterHbox.setVisible(false);
+        }
+        headerLabel.setText("Account Update");
+        accountUpdateController.setData(user);
+        accountUpdateController.initialize();
+        accountUpdateVbox.toFront();
+    }
+
+    public void logoutOnAction (ActionEvent event){
+        Alert confirm = new Alert(Alert.AlertType.WARNING, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = confirm.showAndWait();
+        if(result.get() == ButtonType.YES) {
+            try {
+                user = null;
+                Stage currStage = (Stage) backButton.getScene().getWindow();
+                currStage.close();
+
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/login.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 520, 400);
+                Stage stage = new Stage(StageStyle.UNDECORATED);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e){
+                e.printStackTrace();
+                e.getCause();
+            }
+        }
+    }
+
+
     //TODO: Added way to unfocus and disable the node
     public void backButtonAction(ActionEvent event){
         ObservableList<Node> childs = this.stackPane.getChildren();
@@ -275,5 +327,10 @@ public class HomeController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    //TODO: Create the filter category system for the toggle button
+    //This will be the general selector of the category system.
+    private void filterCategory(){
+        //DO THIS ASAP
     }
 }
