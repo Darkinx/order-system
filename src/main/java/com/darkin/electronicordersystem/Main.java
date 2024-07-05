@@ -6,10 +6,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 
 public class Main extends Application {
     public static final String CURRENCY = "₱";
+    public static final double ORIGW = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public static final double ORIGH = Toolkit.getDefaultToolkit().getScreenSize().height;
+
 
     @Override
     public void start(Stage stage) throws IOException {

@@ -12,6 +12,7 @@ module com.darkin.electronicordersystem {
     requires java.sql;
     requires mysql.connector.j;
     requires java.sql.rowset;
+    requires java.desktop;
 //    requires mysql.connector.java;
 
     opens com.darkin.electronicordersystem to javafx.fxml;
