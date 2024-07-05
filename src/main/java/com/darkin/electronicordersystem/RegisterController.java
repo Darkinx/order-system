@@ -66,31 +66,33 @@ public class RegisterController implements Initializable {
     }
 //TODO: Need validators and checkers for E-mail etc.
     public void registerButtonOnAction(ActionEvent event){
+        registrationMessageLabel.setText("");
         if(firstnameTextField.getText().isBlank() || lastnameTextField.getText().isBlank() || usernameTextField.getText().isBlank() || emailTextField.getText().isBlank() || addressTextField.getText().isBlank() || setPasswordField.getText().isBlank()|| confirmPasswordField.getText().isBlank()){
             registrationMessageLabel.setText("Missing input fields");
-        }else {
+        }else if(emailChecker()){
+//            registrationMessageLabel.setText("Please input a correct email");
+        }else if (!(setPasswordField.getText().equals(confirmPasswordField.getText()))){
+            String PASSWORD_NOT_MATCH = "Password does not match";
+            passwordMessageLabel.setText(PASSWORD_NOT_MATCH);
+        } else {
             registrationMessageLabel.setText("");
-            if(!emailChecker()){
-                if(setPasswordField.getText().equals(confirmPasswordField.getText())) {
-                    passwordMessageLabel.setText("Passwords matched!");
-                    try {
-                        userConn.registerUser(getQuery());
-                        registrationMessageLabel.setText("Registered successfully");
-
-                    } catch (SQLException e) {
-                        registrationMessageLabel.setText("Something's wrong");
-                        throw new RuntimeException(e);
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                    loginAccountForm();
-                    closeForm();
-                }else{
-                    String PASSWORD_NOT_MATCH = "Password does not match";
-                    passwordMessageLabel.setText(PASSWORD_NOT_MATCH);
+            String username = usernameTextField.getText().strip();
+            String email = emailTextField.getText().strip();
+            if(!userConn.validateRegister(username, email)) {
+                try {
+                    userConn.registerUser(getQuery());
+                    registrationMessageLabel.setText("Registered successfully");
+                } catch (SQLException e) {
+                    registrationMessageLabel.setText("Something's wrong");
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
+                loginAccountForm();
+                closeForm();
+            } else{
+                registrationMessageLabel.setText("Username or Email already exist.");
             }
-
         }
 
     }
@@ -133,7 +135,7 @@ public class RegisterController implements Initializable {
         return user;
     }
     private boolean emailChecker(){
-        boolean isNotMatch =  !emailTextField.getText().matches("(?:[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+        boolean isNotMatch =  !emailTextField.getText().matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
 
         if(isNotMatch){
             registrationMessageLabel.setText("Please input an email");
