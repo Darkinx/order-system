@@ -71,11 +71,11 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(fname, user.fname) && Objects.equals(lname, user.lname) && Objects.equals(address, user.address) && Objects.equals(email, user.email);
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(fname, user.fname) && Objects.equals(lname, user.lname) && Objects.equals(address, user.address) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, fname, lname, address, email);
+        return Objects.hash(id, username, fname, lname, address, email);
     }
 }

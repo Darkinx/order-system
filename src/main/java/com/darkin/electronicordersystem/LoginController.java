@@ -3,6 +3,7 @@ package com.darkin.electronicordersystem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.stage.StageStyle;
 import com.darkin.electronicordersystem.models.User;
 import com.darkin.electronicordersystem.models.UserDAO;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,7 @@ public class LoginController implements Initializable {
         Image lockImage =  new Image(lockFile.toURI().toString());//do no what is this for.
         lockImageView.setImage(lockImage);
 
+        loginMessageLabel.setText("");
     }
 
 //TODO: Need validators
@@ -66,10 +69,11 @@ public class LoginController implements Initializable {
             String password = enterPasswordField.getText();
             if(userConn.validateLogin(username, password)) {
                 System.out.println("Login tested");
-                loginMessageLabel.setText("Permission to enter"); //need a way to have a pseudo layout of the buying form
+                loginMessageLabel.setText(""); //need a way to have a pseudo layout of the buying form
                 try{
-                    user = userConn.getUserInfo(username, password);
+                    user = userConn.getUserInfo(username);
                     loginMessageLabel.setText("Login successfully!");
+
                 }catch (SQLException e){
                     System.err.println("Error occur while fetching user info: " + e);
                     loginMessageLabel.setText("Error occurred while logging in!");

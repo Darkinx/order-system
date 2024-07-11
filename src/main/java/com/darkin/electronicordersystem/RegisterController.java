@@ -55,7 +55,7 @@ public class RegisterController implements Initializable {
         });
 
         setPasswordField.textProperty().addListener(event -> {
-            if (!setPasswordField.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\\S{8,}$")) {
+            if (!passwordCheck()) {
                 registrationMessageLabel.setText(PASSWORD_WARNING);
             }else{
                 passwordMessageLabel.setText("");
@@ -71,36 +71,42 @@ public class RegisterController implements Initializable {
             registrationMessageLabel.setText("Missing input fields");
         }else if(emailChecker()){
 //            registrationMessageLabel.setText("Please input a correct email");
-        }else if (!(setPasswordField.getText().equals(confirmPasswordField.getText()))){
+        }else if(!passwordCheck()){
+            registrationMessageLabel.setText(PASSWORD_WARNING);
+        } else if (!(setPasswordField.getText().equals(confirmPasswordField.getText()))){
             String PASSWORD_NOT_MATCH = "Password does not match";
             passwordMessageLabel.setText(PASSWORD_NOT_MATCH);
         } else {
             registrationMessageLabel.setText("");
-            String username = usernameTextField.getText().strip();
-            String email = emailTextField.getText().strip();
-            if(!userConn.validateRegister(username, email)) {
-                try {
-                    userConn.registerUser(getQuery());
-                    registrationMessageLabel.setText("Registered successfully");
-                } catch (SQLException e) {
-                    registrationMessageLabel.setText("Something's wrong");
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                loginAccountForm();
-                closeForm();
-            } else{
-                registrationMessageLabel.setText("Username or Email already exist.");
-            }
+            registerAction();
         }
-
     }
+
 
     public void closeButtonOnAction(ActionEvent event){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
         Platform.exit();
+    }
+
+    private void registerAction(){
+        String username = usernameTextField.getText().strip();
+        String email = emailTextField.getText().strip();
+        if(!userConn.validateRegister(username, email)) {
+            try {
+                userConn.registerUser(getQuery());
+                registrationMessageLabel.setText("Registered successfully");
+            } catch (SQLException e) {
+                registrationMessageLabel.setText("Something's wrong");
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            loginAccountForm();
+            closeForm();
+        } else{
+            registrationMessageLabel.setText("Username or Email already exist.");
+        }
     }
 
     private void loginAccountForm(){
@@ -142,8 +148,9 @@ public class RegisterController implements Initializable {
         }else{
             registrationMessageLabel.setText("");
         }
-
         return isNotMatch;
-
+    }
+    private boolean passwordCheck(){
+        return setPasswordField.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\\S{8,}$");
     }
 }
