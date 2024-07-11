@@ -4,11 +4,13 @@ import com.darkin.electronicordersystem.models.MyListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import com.darkin.electronicordersystem.models.Product;
 import com.darkin.electronicordersystem.models.ProductDAO;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -42,12 +44,11 @@ public class ProductViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        TODO need to input everything
+    // TODO need to input everything
         //TODO setup Spinner
 
     }
 
-    //TODO: Set max value of Spinner to stock
     public void setData(Product product, MyListener listener){
         this.product = product;
         this.cartListener = listener;
@@ -62,7 +63,7 @@ public class ProductViewController implements Initializable {
         productImageView.setPreserveRatio(true);
         productImageView.setFitWidth(500);
 
-        //spinner setup
+        //spinner setup w/ max value of stock
         //https://stackoverflow.com/questions/31248983/how-to-create-an-integer-spinner-with-fxml#31250792
         quantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, product.getStock(), 1));
     }
@@ -74,8 +75,18 @@ public class ProductViewController implements Initializable {
     }
     public void addToCartAction(ActionEvent event){
         //TODO: Need to center and be part of the system and now a new window the alert pop up
-        Alert alertOK = new Alert((Alert.AlertType.NONE), "Item \"" + product.getName() + "\" was added to cart.", ButtonType.OK );
-        alertOK.showAndWait();
+//        Alert alertOK = new Alert((Alert.AlertType.NONE), "Item \"" + product.getName() + "\" was added to cart.", ButtonType.OK );
+//        alertOK.showAndWait();
+        ImageView notificationImageView = new ImageView(productImageView.getImage());
+        notificationImageView.setPreserveRatio(true);
+        notificationImageView.setFitWidth(50d);
+        Notifications notificationBuilder = Notifications.create()
+                .title("Added to cart")
+                .text(product.getName() + "\nwas added to cart")
+                .position(Pos.BOTTOM_RIGHT)
+                .graphic(notificationImageView);
+        notificationBuilder.show();
+
         product.setQuantity(quantitySpinner.getValue().intValue());
         cartListener.onClickListener(product);
     }
