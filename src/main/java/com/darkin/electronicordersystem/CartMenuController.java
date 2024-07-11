@@ -11,10 +11,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.File;
@@ -64,15 +74,20 @@ public class CartMenuController {
 
     public void checkOutOnAction(ActionEvent event){
         if(!(total == 0)){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm and place the order? \nGrand Total = "+total, ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            alert.close();
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirm and place the order? \nGrand Total = "+total, ButtonType.YES, ButtonType.NO);
+//            alert.setX(Main.ORIGW/2 - alert.getWidth());
+//            alert.setY(Main.ORIGH/2 - alert.getHeight());
+//            alert.initStyle(StageStyle.UNIFIED);
+//            alert.initModality(Modality.APPLICATION_MODAL);
+//            System.out.printf("X: %f Y: %f", Main.ORIGW, Main.ORIGH);
+//            alert.showAndWait();
+//            alert.close();
+            Optional<ButtonType> result = confirmationAlert("Confirm and place the ord          er? " +
+                    "\nGrand Total = "+total);
 
-            if (alert.getResult() == ButtonType.YES) {
-
+            if (result.get() == ButtonType.YES) {
                 Alert alertOK = new Alert((Alert.AlertType.NONE), "CHECKOUT COMPLETE !!", ButtonType.OK );
                 alertOK.showAndWait();
-
                 try {
                     String billNo = Integer.toString(cartItems.hashCode());
                     cartDAO.checkoutCart(userId, total, billNo);
@@ -183,8 +198,6 @@ public class CartMenuController {
                             }
                         });
                     }
-
-
                     @Override
                     public void updateItem(Item item, boolean empty) {
                         // unbind old values
@@ -213,8 +226,7 @@ public class CartMenuController {
         File trashFile = new File("assets/icons/bi--trash.png");
         Image trashImage = new Image(trashFile.toURI().toString());
         removeCol.setCellFactory(ActionButtonTableCell.<CartItem, Void>forTableColumn(trashImage, c -> {
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item?", ButtonType.YES, ButtonType.NO);
-            Optional<ButtonType> result = confirm.showAndWait();
+            Optional<ButtonType> result = confirmationAlert("Are you sure you want to delete this item?");
             if(result.get() == ButtonType.YES){
                 try {
                     cartTable.getItems().remove(c);
@@ -311,5 +323,14 @@ public class CartMenuController {
         }
     }
 
+    private Optional<ButtonType> confirmationAlert(String content){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, content, ButtonType.YES, ButtonType.NO);
+        alert.setX(Main.ORIGW/2 - alert.getWidth());
+        alert.setY(Main.ORIGH/2 - alert.getHeight());
+        alert.initStyle(StageStyle.UNIFIED);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        System.out.printf("X: %f Y: %f", Main.ORIGW, Main.ORIGH);
+        return alert.showAndWait();
+    }
 
 }
